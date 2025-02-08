@@ -1,18 +1,18 @@
 package org.javaguru.travel.insurance.rest;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class TravelCalculatePremiumRequest {
 
     private String personFirstName;
     private String personLastName;
-    private Date agreementDateFrom;
-    private Date agreementDateTo;
+    private LocalDateTime agreementDateFrom;
+    private LocalDateTime agreementDateTo;
 
     public TravelCalculatePremiumRequest() {
     }
 
-    public TravelCalculatePremiumRequest(String personFirstName, String personLastName, Date agreementDateFrom, Date agreementDateTo) {
+    public TravelCalculatePremiumRequest(String personFirstName, String personLastName, LocalDateTime agreementDateFrom, LocalDateTime agreementDateTo) {
         this.personFirstName = personFirstName;
         this.personLastName = personLastName;
         this.agreementDateFrom = agreementDateFrom;
@@ -35,19 +35,19 @@ public class TravelCalculatePremiumRequest {
         this.personLastName = personLastName;
     }
 
-    public Date getAgreementDateFrom() {
+    public LocalDateTime getAgreementDateFrom() {
         return agreementDateFrom;
     }
 
-    public void setAgreementDateFrom(Date agreementDateFrom) {
+    public void setAgreementDateFrom(LocalDateTime agreementDateFrom) {
         this.agreementDateFrom = agreementDateFrom;
     }
 
-    public Date getAgreementDateTo() {
+    public LocalDateTime getAgreementDateTo() {
         return agreementDateTo;
     }
 
-    public void setAgreementDateTo(Date agreementDateTo) {
+    public void setAgreementDateTo(LocalDateTime agreementDateTo) {
         this.agreementDateTo = agreementDateTo;
     }
 }
