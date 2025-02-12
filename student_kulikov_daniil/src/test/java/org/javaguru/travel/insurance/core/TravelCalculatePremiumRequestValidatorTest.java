@@ -2,11 +2,10 @@ package org.javaguru.travel.insurance.core;
 
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.ValidationError;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
+
 
 import java.util.List;
 
@@ -32,8 +31,8 @@ public class TravelCalculatePremiumRequestValidatorTest {
 
         //Assert
         assertFalse(errors.isEmpty());
-        assertEquals("personFirstName", errors.get(0).getField());
-        assertEquals("Must not be empty!", errors.get(0).getMessage());
+        assertEquals("personFirstName", errors.getFirst().getField());
+        assertEquals("Must not be empty!", errors.getFirst().getMessage());
     }
 
     @Test
@@ -49,8 +48,8 @@ public class TravelCalculatePremiumRequestValidatorTest {
 
         //Assert
         assertFalse(errors.isEmpty());
-        assertEquals("personLastName", errors.get(0).getField());
-        assertEquals("Must not be empty!", errors.get(0).getMessage());
+        assertEquals("personLastName", errors.getFirst().getField());
+        assertEquals("Must not be empty!", errors.getFirst().getMessage());
 
     }
 
@@ -67,8 +66,8 @@ public class TravelCalculatePremiumRequestValidatorTest {
 
         //Assert
         assertFalse(errors.isEmpty());
-        assertEquals("personFirstName", errors.get(0).getField());
-        assertEquals("Must not be empty!", errors.get(0).getMessage());
+        assertEquals("personFirstName", errors.getFirst().getField());
+        assertEquals("Must not be empty!", errors.getFirst().getMessage());
     }
 
     @Test
@@ -81,8 +80,8 @@ public class TravelCalculatePremiumRequestValidatorTest {
         List<ValidationError> errors = validator.validate(request);
 
         assertFalse(errors.isEmpty());
-        assertEquals("personLastName", errors.get(0).getField());
-        assertEquals("Must not be empty!", errors.get(0).getMessage());
+        assertEquals("personLastName", errors.getFirst().getField());
+        assertEquals("Must not be empty!", errors.getFirst().getMessage());
     }
 
 
