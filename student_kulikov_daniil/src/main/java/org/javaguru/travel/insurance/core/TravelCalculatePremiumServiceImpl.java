@@ -1,14 +1,16 @@
 package org.javaguru.travel.insurance.core;
 
-import org.javaguru.travel.insurance.rest.TravelCalculatePremiumRequest;
-import org.javaguru.travel.insurance.rest.TravelCalculatePremiumResponse;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
+import org.javaguru.travel.insurance.dto.TravelCalculatePremiumResponse;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
-import java.time.temporal.ChronoUnit;
-
 @Component
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService {
+
+    private final DateTimeService dateTimeService;
 
     @Override
     public TravelCalculatePremiumResponse calculatePremium(TravelCalculatePremiumRequest request) {
@@ -18,14 +20,8 @@ class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService
         response.setAgreementDateFrom(request.getAgreementDateFrom());
         response.setAgreementDateTo(request.getAgreementDateTo());
 
-        long betweenDays = calculateAgreeBetweenPriceDays(request);
-        response.setAgreementPrice(BigDecimal.valueOf(betweenDays));
+        dateTimeService.getDaysBetween(request.getAgreementDateFrom(), request.getAgreementDateTo());
 
         return response;
     }
-
-    private long calculateAgreeBetweenPriceDays(TravelCalculatePremiumRequest request) {
-        return ChronoUnit.DAYS.between(request.getAgreementDateFrom(), request.getAgreementDateTo());
-    }
-
 }

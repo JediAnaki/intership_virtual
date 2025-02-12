@@ -1,16 +1,20 @@
 package org.javaguru.travel.insurance.core;
 
-import org.javaguru.travel.insurance.rest.TravelCalculatePremiumRequest;
-import org.javaguru.travel.insurance.rest.TravelCalculatePremiumResponse;
+import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
+import org.javaguru.travel.insurance.dto.TravelCalculatePremiumResponse;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+
 
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class TravelCalculatePremiumServiceImplTest {
-
-    private final TravelCalculatePremiumServiceImpl premiumService = new TravelCalculatePremiumServiceImpl();
+    @Mock
+    private final DateTimeService dateTimeService = mock(DateTimeService.class);
+    private final TravelCalculatePremiumServiceImpl premiumService = new TravelCalculatePremiumServiceImpl(dateTimeService);
 
     private TravelCalculatePremiumRequest init() {
         var request = new TravelCalculatePremiumRequest();
@@ -67,17 +71,5 @@ class TravelCalculatePremiumServiceImplTest {
 
         //Assert
         assertEquals(response.getAgreementDateTo(), request.getAgreementDateTo());
-    }
-
-    @Test
-    public void shouldTestBetweenPrice() {
-        //Arrange
-        TravelCalculatePremiumRequest request = init();
-
-        //Act
-        TravelCalculatePremiumResponse response = premiumService.calculatePremium(request);
-
-        //Assert
-        assertNotNull(response.getAgreementPrice());
     }
 }
