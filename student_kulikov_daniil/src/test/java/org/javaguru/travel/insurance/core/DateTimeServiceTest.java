@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 public class DateTimeServiceTest {
 
-    private DateTimeService dateTimeService = new DateTimeService();
+    private final DateTimeService dateTimeService = new DateTimeService();
 
     private LocalDateTime[] creatTestDate() {
         LocalDateTime dateTime1 = LocalDateTime.of(2024, 10, 10, 3, 1);

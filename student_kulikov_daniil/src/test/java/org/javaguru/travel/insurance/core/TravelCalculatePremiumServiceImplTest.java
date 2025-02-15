@@ -1,6 +1,5 @@
 package org.javaguru.travel.insurance.core;
 
-import lombok.val;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumResponse;
 import org.javaguru.travel.insurance.dto.ValidationError;
@@ -121,7 +120,7 @@ class TravelCalculatePremiumServiceImplTest {
         var response = premiumService.calculatePremium(request);
 
         //Assert
-        assertEquals(response.getErrors().size(), 1);
+        assertEquals(1, response.getErrors().size());
     }
 
     @Test
@@ -135,8 +134,8 @@ class TravelCalculatePremiumServiceImplTest {
         var response = premiumService.calculatePremium(request);
 
         //Assert
-        assertEquals(response.getErrors().getFirst().getField(), "field");
-        assertEquals(response.getErrors().getFirst().getMessage(), "message");
+        assertEquals("field", response.getErrors().getFirst().getField());
+        assertEquals("message", response.getErrors().getFirst().getMessage());
     }
 
     @Test

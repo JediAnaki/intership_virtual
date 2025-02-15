@@ -3,25 +3,17 @@ package org.javaguru.travel.insurance.core;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.ValidationError;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.autoconfigure.web.format.DateTimeFormatters;
 
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class TravelCalculatePremiumRequestValidatorTest {
+class TravelCalculatePremiumRequestValidatorTest {
 
     private final TravelCalculatePremiumRequestValidator validator = new TravelCalculatePremiumRequestValidator();
 
