@@ -9,6 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,7 +24,7 @@ class TravelCalculatePremiumServiceImplTest {
     @Mock
     private TravelCalculatePremiumRequestValidator requestValidator;
     @Mock
-    private DateTimeService dateTimeService;
+    private TravelCalculatePremiumUnderwriting premiumUnderwriting;
 
     @InjectMocks
     private TravelCalculatePremiumServiceImpl premiumService;
@@ -32,8 +34,8 @@ class TravelCalculatePremiumServiceImplTest {
         var request = new TravelCalculatePremiumRequest();
         request.setPersonFirstName("Daniil");
         request.setPersonLastName("Kulikov");
-        request.setAgreementDateFrom(LocalDateTime.of(2024, 2, 1, 12, 0));
-        request.setAgreementDateTo(LocalDateTime.of(2024, 2, 10, 12, 0));
+        request.setAgreementDateFrom(LocalDate.of(2024, 2, 1));
+        request.setAgreementDateTo(LocalDate.of(2024, 2, 10));
         return request;
     }
 
@@ -41,7 +43,7 @@ class TravelCalculatePremiumServiceImplTest {
     void shouldPopulatePersonFirstName() {
         //Arrange
         var request = init();
-        when(dateTimeService.getDaysBetween(request.getAgreementDateFrom(), request.getAgreementDateTo())).thenReturn(0L);
+        when(premiumUnderwriting.calculatePremium(request)).thenReturn(new BigDecimal(0L));
         when(requestValidator.validate(request)).thenReturn(List.of());
 
         //Act
@@ -57,7 +59,7 @@ class TravelCalculatePremiumServiceImplTest {
     void shouldPopulatePersonLastName() {
         //Arrange
         var request = init();
-        when(dateTimeService.getDaysBetween(request.getAgreementDateFrom(), request.getAgreementDateTo())).thenReturn(0L);
+        when(premiumUnderwriting.calculatePremium(request)).thenReturn(new BigDecimal(0L));
         when(requestValidator.validate(request)).thenReturn(List.of());
 
         //Act
@@ -71,7 +73,7 @@ class TravelCalculatePremiumServiceImplTest {
     void shouldPopulatePersonDateFrom() {
         //Arrange
         var request = init();
-        when(dateTimeService.getDaysBetween(request.getAgreementDateFrom(), request.getAgreementDateTo())).thenReturn(0L);
+        when(premiumUnderwriting.calculatePremium(request)).thenReturn(new BigDecimal(0L));
         when(requestValidator.validate(request)).thenReturn(List.of());
 
         //Act
@@ -85,7 +87,7 @@ class TravelCalculatePremiumServiceImplTest {
     void shouldPopulatePersonDateTo() {
         //Arrange
         var request = init();
-        when(dateTimeService.getDaysBetween(request.getAgreementDateFrom(), request.getAgreementDateTo())).thenReturn(0L);
+        when(premiumUnderwriting.calculatePremium(request)).thenReturn(new BigDecimal(0L));
         when(requestValidator.validate(request)).thenReturn(List.of());
 
         //Act
@@ -157,7 +159,7 @@ class TravelCalculatePremiumServiceImplTest {
     }
 
     @Test
-    public void shouldNOtBeInteractionWithDateTimeServiceWhenResponseContainsError() {
+    void shouldNOtBeInteractionWithDateTimeServiceWhenResponseContainsError() {
         //Arrange
         var request = new TravelCalculatePremiumRequest();
         var errors = new ValidationError("field", "message");
@@ -167,7 +169,7 @@ class TravelCalculatePremiumServiceImplTest {
         var response = premiumService.calculatePremium(request);
 
         //Assert
-        verifyNoInteractions(dateTimeService);
+        verifyNoInteractions(premiumUnderwriting);
     }
 
 }

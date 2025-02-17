@@ -6,6 +6,7 @@ import org.javaguru.travel.insurance.dto.ValidationError;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,8 +25,8 @@ class TravelCalculatePremiumRequestValidatorTest {
         var request = mock(TravelCalculatePremiumRequest.class);
         when(request.getPersonFirstName()).thenReturn(null);
         when(request.getPersonLastName()).thenReturn("lastName");
-        when(request.getAgreementDateFrom()).thenReturn(LocalDateTime.now());
-        when(request.getAgreementDateTo()).thenReturn(LocalDateTime.now());
+        when(request.getAgreementDateFrom()).thenReturn(LocalDate.now());
+        when(request.getAgreementDateTo()).thenReturn(LocalDate.now());
 
         // Act
         List<ValidationError> errors = validator.validate(request);
@@ -43,8 +44,8 @@ class TravelCalculatePremiumRequestValidatorTest {
         var request = mock(TravelCalculatePremiumRequest.class);
         when(request.getPersonFirstName()).thenReturn("firstName");
         when(request.getPersonLastName()).thenReturn(null);
-        when(request.getAgreementDateFrom()).thenReturn(LocalDateTime.now());
-        when(request.getAgreementDateTo()).thenReturn(LocalDateTime.now());
+        when(request.getAgreementDateFrom()).thenReturn(LocalDate.now());
+        when(request.getAgreementDateTo()).thenReturn(LocalDate.now());
 
         //Act
         List<ValidationError> errors = validator.validate(request);
@@ -63,8 +64,8 @@ class TravelCalculatePremiumRequestValidatorTest {
         var request = mock(TravelCalculatePremiumRequest.class);
         when(request.getPersonFirstName()).thenReturn("");
         when(request.getPersonLastName()).thenReturn("lastName");
-        when(request.getAgreementDateFrom()).thenReturn(LocalDateTime.now());
-        when(request.getAgreementDateTo()).thenReturn(LocalDateTime.now());
+        when(request.getAgreementDateFrom()).thenReturn(LocalDate.now());
+        when(request.getAgreementDateTo()).thenReturn(LocalDate.now());
 
         //Act
         List<ValidationError> errors = validator.validate(request);
@@ -82,8 +83,8 @@ class TravelCalculatePremiumRequestValidatorTest {
         var request = mock(TravelCalculatePremiumRequest.class);
         when(request.getPersonFirstName()).thenReturn("firstName");
         when(request.getPersonLastName()).thenReturn("");
-        when(request.getAgreementDateFrom()).thenReturn(LocalDateTime.now());
-        when(request.getAgreementDateTo()).thenReturn(LocalDateTime.now());
+        when(request.getAgreementDateFrom()).thenReturn(LocalDate.now());
+        when(request.getAgreementDateTo()).thenReturn(LocalDate.now());
 
         //Act
         List<ValidationError> errors = validator.validate(request);
@@ -101,7 +102,7 @@ class TravelCalculatePremiumRequestValidatorTest {
         when(request.getPersonFirstName()).thenReturn("firstName");
         when(request.getPersonLastName()).thenReturn("lastName");
         when(request.getAgreementDateFrom()).thenReturn(null);
-        when(request.getAgreementDateTo()).thenReturn(LocalDateTime.now());
+        when(request.getAgreementDateTo()).thenReturn(LocalDate.now());
 
         //Act
         List<ValidationError> errors = validator.validate(request);
@@ -119,7 +120,7 @@ class TravelCalculatePremiumRequestValidatorTest {
         var request = mock(TravelCalculatePremiumRequest.class);
         when(request.getPersonFirstName()).thenReturn("firstName");
         when(request.getPersonLastName()).thenReturn("lastName");
-        when(request.getAgreementDateFrom()).thenReturn(LocalDateTime.now());
+        when(request.getAgreementDateFrom()).thenReturn(LocalDate.now());
         when(request.getAgreementDateTo()).thenReturn(null);
 
         //Act
@@ -138,8 +139,8 @@ class TravelCalculatePremiumRequestValidatorTest {
         var request = mock(TravelCalculatePremiumRequest.class);
         when(request.getPersonFirstName()).thenReturn("firstName");
         when(request.getPersonLastName()).thenReturn("lastName");
-        when(request.getAgreementDateFrom()).thenReturn(LocalDateTime.of(10, 10, 10, 0, 0, 0));
-        when(request.getAgreementDateTo()).thenReturn(LocalDateTime.of(10, 10, 10, 0, 0, 0));
+        when(request.getAgreementDateFrom()).thenReturn(LocalDate.of(10, 10, 10));
+        when(request.getAgreementDateTo()).thenReturn(LocalDate.of(10, 10, 10));
 
         //Act
         List<ValidationError> errors = validator.validate(request);
@@ -157,8 +158,8 @@ class TravelCalculatePremiumRequestValidatorTest {
         var request = mock(TravelCalculatePremiumRequest.class);
         when(request.getPersonFirstName()).thenReturn("firstName");
         when(request.getPersonLastName()).thenReturn("lastName");
-        when(request.getAgreementDateFrom()).thenReturn(LocalDateTime.of(11, 10, 10, 0, 0, 0));
-        when(request.getAgreementDateTo()).thenReturn(LocalDateTime.of(10, 10, 10, 0, 0, 0));
+        when(request.getAgreementDateFrom()).thenReturn(LocalDate.of(11, 10, 10));
+        when(request.getAgreementDateTo()).thenReturn(LocalDate.of(10, 10, 10));
 
         //Act
         List<ValidationError> errors = validator.validate(request);

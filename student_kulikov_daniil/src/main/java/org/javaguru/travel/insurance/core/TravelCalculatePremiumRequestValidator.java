@@ -6,7 +6,7 @@ import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.ValidationError;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -50,8 +50,8 @@ class TravelCalculatePremiumRequestValidator {
     }
 
     private Optional<ValidationError> validateDateFromLessThenDateTo(TravelCalculatePremiumRequest request) {
-        LocalDateTime dateFrom = request.getAgreementDateFrom();
-        LocalDateTime dateTo = request.getAgreementDateTo();
+        LocalDate dateFrom = request.getAgreementDateFrom();
+        LocalDate dateTo = request.getAgreementDateTo();
         return (dateFrom != null && dateTo != null
                 && (dateFrom.isEqual(dateTo) || dateFrom.isAfter(dateTo)))
                 ? Optional.of(new ValidationError("agreementDateFrom", "Must be less then agreementDateTo!"))

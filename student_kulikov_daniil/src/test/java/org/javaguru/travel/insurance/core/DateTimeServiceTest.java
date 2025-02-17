@@ -4,25 +4,26 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class DateTimeServiceTest {
+class DateTimeServiceTest {
 
     private final DateTimeService dateTimeService = new DateTimeService();
 
-    private LocalDateTime[] creatTestDate() {
-        LocalDateTime dateTime1 = LocalDateTime.of(2024, 10, 10, 3, 1);
-        LocalDateTime dateTime2 = LocalDateTime.of(2024, 10, 10, 3, 1);
-        return new LocalDateTime[]{dateTime1, dateTime2};
+    private LocalDate[] creatTestDate() {
+        LocalDate dateTime1 = LocalDate.of(2024, 10, 10);
+        LocalDate dateTime2 = LocalDate.of(2024, 10, 10);
+        return new LocalDate[]{dateTime1, dateTime2};
 
     }
 
     @Test
-    public void shouldBetweenBeZero() {
+    void shouldBetweenBeZero() {
         //Arrange
-        LocalDateTime[] dates = creatTestDate();
-        LocalDateTime dateTime1 = dates[0];
-        LocalDateTime dateTime2 = dates[1];
+        LocalDate[] dates = creatTestDate();
+        LocalDate dateTime1 = dates[0];
+        LocalDate dateTime2 = dates[1];
 
         //Act
         long daysBetween = dateTimeService.getDaysBetween(dateTime1, dateTime2);
@@ -32,11 +33,11 @@ public class DateTimeServiceTest {
     }
 
     @Test
-    public void shouldReturnPositiveDaysDifference() {
+    void shouldReturnPositiveDaysDifference() {
         // Arrange
-        LocalDateTime[] dates = creatTestDate();
-        LocalDateTime dateTime1 = dates[0];
-        LocalDateTime dateTime2 = dateTime1.plusDays(1); // Изменяем второй объект
+        LocalDate[] dates = creatTestDate();
+        LocalDate dateTime1 = dates[0];
+        LocalDate dateTime2 = dateTime1.plusDays(1);
 
         // Act
         long daysBetween = dateTimeService.getDaysBetween(dateTime1, dateTime2);
@@ -46,11 +47,11 @@ public class DateTimeServiceTest {
     }
 
     @Test
-    public void shouldReturnNegativeDaysDifference() {
+    void shouldReturnNegativeDaysDifference() {
         //Arrange
-        LocalDateTime[] dates = creatTestDate();
-        LocalDateTime dateTime1 = dates[0];
-        LocalDateTime dateTime2 = dateTime1.minusDays(1);
+        LocalDate[] dates = creatTestDate();
+        LocalDate dateTime1 = dates[0];
+        LocalDate dateTime2 = dateTime1.minusDays(1);
 
         //Act
         long daysBetween = dateTimeService.getDaysBetween(dateTime1, dateTime2);
@@ -58,6 +59,4 @@ public class DateTimeServiceTest {
         //Assert
         assertEquals(-1L, daysBetween);
     }
-
-
 }
