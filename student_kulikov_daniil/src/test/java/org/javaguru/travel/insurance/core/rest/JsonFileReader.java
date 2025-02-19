@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 @Component
 public class JsonFileReader {
-    public static String readJsonFromFile(String filePath) {
+    public String readJsonFromFile(String filePath) {
         ClassLoader classLoader = JsonFileReader.class.getClassLoader();
         try (InputStream inputStream = classLoader.getResourceAsStream(filePath)) {
             if (inputStream == null) {

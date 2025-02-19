@@ -5,6 +5,10 @@ import org.javaguru.travel.insurance.dto.ValidationError;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,9 +17,19 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class TravelCalculatePremiumRequestValidatorTest {
 
-    private final TravelCalculatePremiumRequestValidator validator = new TravelCalculatePremiumRequestValidator();
+    @Mock private ValidatePersonFirstName validatePersonFirstNameClass;
+    @Mock private ValidatePersonLastName validatePersonLastNameClass;
+    @Mock private ValidateAgreementDateFrom validateAgreementDateFromClass;
+    @Mock private ValidateAgreementDateTo validateAgreementDateToClass;
+    @Mock private ValidateDateFromLessThenDateTo validateDateFromLessThenDateToClass;
+    @Mock private ValidateDateFromFuture validateDateFromFutureClass;
+    @Mock private ValidateDateToFuture validateDateToFutureClass;
+
+    @InjectMocks
+    private TravelCalculatePremiumRequestValidator validator;
 
     @Test
     @DisplayName("Null в имени")
@@ -168,5 +182,43 @@ class TravelCalculatePremiumRequestValidatorTest {
         assertEquals(1, errors.size());
         assertEquals("agreementDateFrom", errors.getFirst().getField());
         assertEquals("Must be less then agreementDateTo!", errors.getFirst().getMessage());
+    }
+
+    @Test
+    void shouldReturnErrorWhenAgreementDateFromInThePast() {
+        //Arrange
+        var request = mock(TravelCalculatePremiumRequest.class);
+        when(request.getPersonFirstName()).thenReturn("firstName");
+        when(request.getPersonLastName()).thenReturn("lastName");
+        when(request.getAgreementDateFrom()).thenReturn(LocalDate.of(2020, 10, 10));
+        when(request.getAgreementDateTo()).thenReturn(LocalDate.of(2026, 10, 10));
+
+        //Act
+        List<ValidationError> errors = validator.validate(request);
+
+        //Assert
+        assertFalse(errors.isEmpty());
+        assertEquals(1, errors.size());
+        assertEquals("agreementDateFrom", errors.getFirst().getField());
+        assertEquals("Must be in the future!", errors.getFirst().getMessage());
+    }
+
+    @Test
+    void shouldReturnErrorWhenAgreementDateToInThePast() {
+        //Arrange
+        var request = mock(TravelCalculatePremiumRequest.class);
+        when(request.getPersonFirstName()).thenReturn("firstName");
+        when(request.getPersonLastName()).thenReturn("lastName");
+        when(request.getAgreementDateFrom()).thenReturn(LocalDate.of(2026, 10, 10));
+        when(request.getAgreementDateTo()).thenReturn(LocalDate.of(2020, 10, 10));
+
+        //Act
+        List<ValidationError> errors = validator.validate(request);
+
+        //Assert
+        assertFalse(errors.isEmpty());
+        assertEquals(2, errors.size());
+        assertEquals("agreementDateTo", errors.get(1).getField());
+        assertEquals("Must be in the future!", errors.get(1).getMessage());
     }
 }
