@@ -6,9 +6,9 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 @Component
-class DateTimeService {
+public class DateTimeService {
 
-    long getDaysBetween(LocalDate dateTime1, LocalDate dateTime2) {
+    public long getDaysBetween(LocalDate dateTime1, LocalDate dateTime2) {
         return ChronoUnit.DAYS.between(dateTime1, dateTime2);
     }
 

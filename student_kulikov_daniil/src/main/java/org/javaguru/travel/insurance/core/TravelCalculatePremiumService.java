@@ -6,5 +6,4 @@ import org.javaguru.travel.insurance.dto.TravelCalculatePremiumResponse;
 public interface TravelCalculatePremiumService {
 
     TravelCalculatePremiumResponse calculatePremium(TravelCalculatePremiumRequest request);
-
 }

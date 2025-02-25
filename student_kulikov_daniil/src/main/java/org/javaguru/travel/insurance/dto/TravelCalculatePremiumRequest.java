@@ -12,12 +12,15 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonFormat(pattern = "yyyy-MM-dd")
 public class TravelCalculatePremiumRequest {
 
     private String personFirstName;
     private String personLastName;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate agreementDateFrom;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate agreementDateTo;
 
 }

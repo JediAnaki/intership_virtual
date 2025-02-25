@@ -1,4 +1,4 @@
-package org.javaguru.travel.insurance.core;
+package org.javaguru.travel.insurance.core.validations;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -11,10 +11,11 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-class ValidateDateFromFuture {
-    public Optional<ValidationError> validateDateFromFuture(TravelCalculatePremiumRequest request) {
+public class ValidateDateFromFuture implements TravelRequestValidation{
+    public Optional<ValidationError> execute(TravelCalculatePremiumRequest request) {
         LocalDate dateFrom = request.getAgreementDateFrom();
-        return (dateFrom.isBefore(LocalDate.now()))
+        LocalDate dateTo = LocalDate.now();
+        return (dateFrom != null && dateFrom.isBefore(dateTo))
                 ? Optional.of(new ValidationError("agreementDateFrom", "Must be in the future!"))
                 : Optional.empty();
     }

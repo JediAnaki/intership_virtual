@@ -1,4 +1,4 @@
-package org.javaguru.travel.insurance.core;
+package org.javaguru.travel.insurance.core.validations;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -9,9 +9,8 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-class ValidateAgreementDateTo {
-    public Optional<ValidationError> validateAgreementDateTo(TravelCalculatePremiumRequest request) {
+public class ValidateAgreementDateTo implements TravelRequestValidation {
+    public Optional<ValidationError> execute(TravelCalculatePremiumRequest request) {
         return (request.getAgreementDateTo() == null)
                 ? Optional.of(new ValidationError("agreementDateTo", "Must not be empty!"))
                 : Optional.empty();

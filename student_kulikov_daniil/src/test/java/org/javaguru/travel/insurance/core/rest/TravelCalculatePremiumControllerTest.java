@@ -32,12 +32,6 @@ public class TravelCalculatePremiumControllerTest {
 
     @Autowired private MockMvc mockMvc;
     @Autowired private JsonFileReader jsonFileReader;
-    private final ObjectMapper mapper = new ObjectMapper();
-
-    private static String getString(MvcResult result) throws UnsupportedEncodingException {
-        String responseBodyContent = result.getResponse().getContentAsString();
-        return responseBodyContent;
-    }
 
     @Test
     @DisplayName("Test 3: allFields is OK 200")
@@ -48,12 +42,12 @@ public class TravelCalculatePremiumControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        var responseBodyContent = getString(result);
+        String responseBodyContent = result.getResponse().getContentAsString();
         String jsonResponse = jsonFileReader.readJsonFromFile("rest/TravelCalculatePremiumResponse_success.json");
 
+        ObjectMapper mapper = new ObjectMapper();
         assertEquals(mapper.readTree(responseBodyContent), mapper.readTree(jsonResponse));
     }
-
 
 
     @Test
@@ -65,10 +59,12 @@ public class TravelCalculatePremiumControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        var responseBodyContent = getString(result);
+        String responseBodyContent = result.getResponse().getContentAsString();
         String jsonResponse = jsonFileReader.readJsonFromFile("rest/TravelCalculatePremiumResponse_allFields_not_provided.json");
 
+        ObjectMapper mapper = new ObjectMapper();
         assertEquals(mapper.readTree(responseBodyContent), mapper.readTree(jsonResponse));
+
     }
 
 
@@ -81,9 +77,10 @@ public class TravelCalculatePremiumControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        var responseBodyContent = getString(result);
+        String responseBodyContent = result.getResponse().getContentAsString();
         String jsonResponse = jsonFileReader.readJsonFromFile("rest/TravelCalculatePremiumResponse_dateTo_lessThen_dateFrom.json");
 
+        ObjectMapper mapper = new ObjectMapper();
         assertEquals(mapper.readTree(responseBodyContent), mapper.readTree(jsonResponse));
     }
 
@@ -96,9 +93,10 @@ public class TravelCalculatePremiumControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        var responseBodyContent = getString(result);
+        String responseBodyContent = result.getResponse().getContentAsString();
         String jsonResponse = jsonFileReader.readJsonFromFile("rest/TravelCalculatePremiumResponse_firstName_not_provided.json");
 
+        ObjectMapper mapper = new ObjectMapper();
         assertEquals(mapper.readTree(responseBodyContent), mapper.readTree(jsonResponse));
     }
 
@@ -111,9 +109,10 @@ public class TravelCalculatePremiumControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        var responseBodyContent = getString(result);
+        String responseBodyContent = result.getResponse().getContentAsString();
         String jsonResponse = jsonFileReader.readJsonFromFile("rest/TravelCalculatePremiumResponse_lastName_not_provided.json");
 
+        ObjectMapper mapper = new ObjectMapper();
         assertEquals(mapper.readTree(responseBodyContent), mapper.readTree(jsonResponse));
     }
 
@@ -126,9 +125,10 @@ public class TravelCalculatePremiumControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        var responseBodyContent = getString(result);
+        String responseBodyContent = result.getResponse().getContentAsString();
         String jsonResponse = jsonFileReader.readJsonFromFile("rest/TravelCalculatePremiumResponse_agreementDateFrom_not_provided.json");
 
+        ObjectMapper mapper = new ObjectMapper();
         assertEquals(mapper.readTree(responseBodyContent), mapper.readTree(jsonResponse));
     }
 
@@ -141,16 +141,10 @@ public class TravelCalculatePremiumControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        var responseBodyContent = getString(result);
+        String responseBodyContent = result.getResponse().getContentAsString();
         String jsonResponse = jsonFileReader.readJsonFromFile("rest/TravelCalculatePremiumResponse_agreementDateTo_not_provided.json");
 
+        ObjectMapper mapper = new ObjectMapper();
         assertEquals(mapper.readTree(responseBodyContent), mapper.readTree(jsonResponse));
     }
-
-
-
-
-
-
-
 }
