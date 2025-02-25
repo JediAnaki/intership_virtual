@@ -1,7 +1,5 @@
 package org.javaguru.travel.insurance.core.validations;
 
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.ValidationError;
 import org.springframework.stereotype.Component;

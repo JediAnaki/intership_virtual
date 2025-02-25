@@ -1,7 +1,6 @@
 package org.javaguru.travel.insurance.core.validations;
 
 import lombok.AccessLevel;
-import lombok.NonNull;
 
 import lombok.RequiredArgsConstructor;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
