@@ -10,6 +10,7 @@ public class DateTimeService {
 
     public long getDaysBetween(LocalDate dateTime1, LocalDate dateTime2) {
         return ChronoUnit.DAYS.between(dateTime1, dateTime2);
+
     }
 
 }
