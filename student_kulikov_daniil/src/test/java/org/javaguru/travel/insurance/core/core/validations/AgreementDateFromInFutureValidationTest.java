@@ -1,4 +1,4 @@
-package org.javaguru.travel.insurance.core.core;
+package org.javaguru.travel.insurance.core.core.validations;
 
 import org.javaguru.travel.insurance.core.validations.ValidateDateFromFuture;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
@@ -28,14 +28,14 @@ public class AgreementDateFromInFutureValidationTest {
         request.setAgreementDateTo(LocalDate.of(2023, 10, 10));
 
         when(validator.execute(request)).thenReturn(
-                Optional.of(new ValidationError("agreementDateFrom", "Must be in the future!"))
+                Optional.of(new ValidationError("ERROR_CODE_1", "error description"))
         );
 
         Optional<ValidationError> errors = validator.execute(request);
 
         assertTrue(errors.isPresent());
-        assertEquals("agreementDateFrom", errors.get().getField());
-        assertEquals("Must be in the future!", errors.get().getMessage());
+        assertEquals("ERROR_CODE_1", errors.get().getErrorCode());
+        assertEquals("error description", errors.get().getDescription());
     }
 }
 

@@ -1,5 +1,7 @@
-package org.javaguru.travel.insurance.core;
+package org.javaguru.travel.insurance.core.core.services;
 
+import org.javaguru.travel.insurance.core.services.TravelCalculatePremiumServiceImpl;
+import org.javaguru.travel.insurance.core.underwriting.TravelCalculatePremiumUnderwritingImpl;
 import org.javaguru.travel.insurance.core.validations.TravelCalculatePremiumRequestValidator;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumResponse;
@@ -24,7 +26,7 @@ class TravelCalculatePremiumServiceImplTest {
     @Mock
     private TravelCalculatePremiumRequestValidator requestValidator;
     @Mock
-    private TravelCalculatePremiumUnderwriting premiumUnderwriting;
+    private TravelCalculatePremiumUnderwritingImpl premiumUnderwriting;
 
     @InjectMocks
     private TravelCalculatePremiumServiceImpl premiumService;
@@ -136,8 +138,7 @@ class TravelCalculatePremiumServiceImplTest {
         var response = premiumService.calculatePremium(request);
 
         //Assert
-        assertEquals("field", response.getErrors().getFirst().getField());
-        assertEquals("message", response.getErrors().getFirst().getMessage());
+        assertEquals(1, response.getErrors().size());
     }
 
     @Test

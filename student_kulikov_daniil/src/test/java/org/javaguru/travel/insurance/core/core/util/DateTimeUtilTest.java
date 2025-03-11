@@ -1,14 +1,15 @@
-package org.javaguru.travel.insurance.core;
+package org.javaguru.travel.insurance.core.core.util;
 
+import org.javaguru.travel.insurance.core.util.DateTimeUtil;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 
-class DateTimeServiceTest {
+class DateTimeUtilTest {
 
-    private final DateTimeService dateTimeService = new DateTimeService();
+    private final DateTimeUtil dateTimeUtil = new DateTimeUtil();
 
     private LocalDate[] creatTestDate() {
         LocalDate dateTime1 = LocalDate.of(2024, 10, 10);
@@ -25,7 +26,7 @@ class DateTimeServiceTest {
         LocalDate dateTime2 = dates[1];
 
         //Act
-        long daysBetween = dateTimeService.getDaysBetween(dateTime1, dateTime2);
+        long daysBetween = dateTimeUtil.getDaysBetween(dateTime1, dateTime2);
 
         //Assert
         assertEquals(0L, daysBetween);
@@ -39,7 +40,7 @@ class DateTimeServiceTest {
         LocalDate dateTime2 = dateTime1.plusDays(1);
 
         // Act
-        long daysBetween = dateTimeService.getDaysBetween(dateTime1, dateTime2);
+        long daysBetween = dateTimeUtil.getDaysBetween(dateTime1, dateTime2);
 
         // Assert
         assertEquals(1, daysBetween);
@@ -53,7 +54,7 @@ class DateTimeServiceTest {
         LocalDate dateTime2 = dateTime1.minusDays(1);
 
         //Act
-        long daysBetween = dateTimeService.getDaysBetween(dateTime1, dateTime2);
+        long daysBetween = dateTimeUtil.getDaysBetween(dateTime1, dateTime2);
 
         //Assert
         assertEquals(-1L, daysBetween);

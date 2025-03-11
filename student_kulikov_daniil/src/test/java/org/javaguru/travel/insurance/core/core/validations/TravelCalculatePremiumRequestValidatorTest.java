@@ -1,4 +1,4 @@
-package org.javaguru.travel.insurance.core.core;
+package org.javaguru.travel.insurance.core.core.validations;
 
 import org.javaguru.travel.insurance.core.validations.*;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
@@ -51,7 +51,7 @@ public class TravelCalculatePremiumRequestValidatorTest {
         ReflectionTestUtils.setField(validator, "travelValidations", travelValidations);
 
         List<ValidationError> errors = validator.validate(request);
-        assertEquals(errors.size(), 2);
+        assertEquals(2, errors.size());
     }
 
 }

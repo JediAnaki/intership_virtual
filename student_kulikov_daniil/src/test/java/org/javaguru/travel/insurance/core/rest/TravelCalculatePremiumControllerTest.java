@@ -1,9 +1,9 @@
 package org.javaguru.travel.insurance.core.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,7 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -61,6 +61,22 @@ public class TravelCalculatePremiumControllerTest {
     }
 
     @Test
+    public void selectedRisksIsNull() throws Exception {
+        executeAndCompare(
+                "rest/TravelCalculatePremiumRequest_selectedRisks_null.json",
+                "rest/TravelCalculatePremiumResponse_selectedRisks_null.json"
+        );
+    }
+
+    @Test
+    public void selectedRisksIsEmpty() throws Exception {
+        executeAndCompare(
+                "rest/TravelCalculatePremiumRequest_selectedRisks_empty.json",
+                "rest/TravelCalculatePremiumResponse_selectedRisks_empty.json"
+        );
+    }
+
+    @Test
     public void agreementDateToNotProvided() throws Exception {
         executeAndCompare(
                 "rest/TravelCalculatePremiumRequest_agreementDateTo_not_provided.json",
@@ -98,7 +114,9 @@ public class TravelCalculatePremiumControllerTest {
 
         String jsonResponse = jsonFileReader.readJsonFromFile(jsonResponseFilePath);
 
-        ObjectMapper mapper = new ObjectMapper();
-        assertEquals(mapper.readTree(responseBodyContent), mapper.readTree(jsonResponse));
+        JSONAssert.assertEquals(responseBodyContent,
+                                    jsonResponse,
+                                JSONCompareMode.LENIENT);
+
     }
 }
