@@ -30,7 +30,7 @@ public class AgreementDateToValidationTest {
         TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
         when(request.getAgreementDateTo()).thenReturn(null);
         when(errorCodeUtil.getErrorDescription("ERROR_CODE_4")).thenReturn("error description");
-        Optional<ValidationError> errorOpt = validator.execute(request);
+        Optional<ValidationError> errorOpt = validator.validate(request);
         assertTrue(errorOpt.isPresent());
         assertEquals("ERROR_CODE_4", errorOpt.get().getErrorCode());
         assertEquals("error description", errorOpt.get().getDescription());

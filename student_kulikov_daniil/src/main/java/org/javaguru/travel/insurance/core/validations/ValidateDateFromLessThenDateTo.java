@@ -12,12 +12,12 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-public class ValidateDateFromLessThenDateTo implements TravelRequestValidation{
+public class ValidateDateFromLessThenDateTo implements TravelRequestValidation {
 
     private final ErrorCodeUtil errorCodeUtil;
 
     @Override
-    public Optional<ValidationError> execute(TravelCalculatePremiumRequest request) {
+    public Optional<ValidationError> validate(TravelCalculatePremiumRequest request) {
         LocalDate dateFrom = request.getAgreementDateFrom();
         LocalDate dateTo = request.getAgreementDateTo();
         return (dateFrom != null && dateTo != null

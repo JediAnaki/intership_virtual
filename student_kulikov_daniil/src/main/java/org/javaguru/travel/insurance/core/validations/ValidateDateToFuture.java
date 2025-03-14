@@ -19,7 +19,7 @@ public class ValidateDateToFuture implements TravelRequestValidation {
     private final DateTimeUtil dateTimeUtil;
 
     @Override
-    public Optional<ValidationError> execute(TravelCalculatePremiumRequest request) {
+    public Optional<ValidationError> validate(TravelCalculatePremiumRequest request) {
         LocalDate dateTo = request.getAgreementDateTo();
         LocalDate currentDateTime = dateTimeUtil.getCurrentDateTime();
         return (dateTo != null && dateTo.isBefore(currentDateTime))

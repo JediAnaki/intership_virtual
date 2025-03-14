@@ -156,7 +156,7 @@ class TravelCalculatePremiumServiceImplTest {
         assertNull(response.getPersonLastName());
         assertNull(response.getAgreementDateFrom());
         assertNull(response.getAgreementDateTo());
-        assertNull(response.getAgreementPrice());
+        assertNull(response.getAgreementPremium());
     }
 
     @Test

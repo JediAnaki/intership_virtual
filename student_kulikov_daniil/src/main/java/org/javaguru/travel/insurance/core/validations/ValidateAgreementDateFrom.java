@@ -15,7 +15,7 @@ public class ValidateAgreementDateFrom implements TravelRequestValidation {
 
     private final ErrorCodeUtil errorCodeUtil;
 
-    public Optional<ValidationError> execute(TravelCalculatePremiumRequest request) {
+    public Optional<ValidationError> validate(TravelCalculatePremiumRequest request) {
         return (request.getAgreementDateFrom() == null)
                 ? Optional.of(buildError("ERROR_CODE_2"))
                 : Optional.empty();

@@ -38,7 +38,7 @@ public class AgreementDateToInFutureValidationTest {
         when(request.getAgreementDateTo()).thenReturn(LocalDate.of(2020, 10, 10));
 
         when(errorCodeUtil.getErrorDescription("ERROR_CODE_3")).thenReturn("error description");
-        Optional<ValidationError> errors = validator.execute(request);
+        Optional<ValidationError> errors = validator.validate(request);
 
         assertTrue(errors.isPresent());
         assertEquals("ERROR_CODE_3", errors.get().getErrorCode());

@@ -5,6 +5,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Properties;
 
 @Component
@@ -19,5 +20,14 @@ public class ErrorCodeUtil {
 
     public String getErrorDescription(String errorCode) {
         return properties.getProperty(errorCode);
+    }
+
+    public String getErrorDescription(String errorCode, List<Placeholder> placeholders) {
+        String errorDescription = properties.getProperty(errorCode);
+        for (Placeholder placeholder : placeholders) {
+            String placeholderToReplace = "{" + placeholder.getPlaceholderName() + "}";
+            errorDescription = errorDescription.replace(placeholderToReplace, placeholder.getPlaceholderValue());
+        }
+        return errorDescription;
     }
 }

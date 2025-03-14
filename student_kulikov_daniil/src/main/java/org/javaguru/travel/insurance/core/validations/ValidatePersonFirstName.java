@@ -11,11 +11,11 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-public class ValidatePersonFirstName implements TravelRequestValidation{
+public class ValidatePersonFirstName implements TravelRequestValidation {
 
     private final ErrorCodeUtil errorCodeUtil;
 
-    public Optional<ValidationError> execute(TravelCalculatePremiumRequest request) {
+    public Optional<ValidationError> validate(TravelCalculatePremiumRequest request) {
         return (request.getPersonFirstName() == null || request.getPersonFirstName().isEmpty())
                 ? Optional.of(buildError("ERROR_CODE_7"))
                 : Optional.empty();

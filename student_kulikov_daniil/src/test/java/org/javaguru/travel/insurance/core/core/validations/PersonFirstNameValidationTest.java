@@ -29,7 +29,7 @@ public class PersonFirstNameValidationTest {
         TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
         when(request.getPersonFirstName()).thenReturn(null);
         when(errorCodeUtil.getErrorDescription("ERROR_CODE_7")).thenReturn("error description");
-        Optional<ValidationError> errorOpt = validator.execute(request);
+        Optional<ValidationError> errorOpt = validator.validate(request);
         assertTrue(errorOpt.isPresent());
         assertEquals("ERROR_CODE_7", errorOpt.get().getErrorCode());
         assertEquals("error description", errorOpt.get().getDescription());
@@ -40,7 +40,7 @@ public class PersonFirstNameValidationTest {
         TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
         when(request.getPersonFirstName()).thenReturn("");
         when(errorCodeUtil.getErrorDescription("ERROR_CODE_7")).thenReturn("error description");
-        Optional<ValidationError> errorOpt = validator.execute(request);
+        Optional<ValidationError> errorOpt = validator.validate(request);
         assertTrue(errorOpt.isPresent());
         assertEquals("ERROR_CODE_7", errorOpt.get().getErrorCode());
         assertEquals("error description", errorOpt.get().getDescription());

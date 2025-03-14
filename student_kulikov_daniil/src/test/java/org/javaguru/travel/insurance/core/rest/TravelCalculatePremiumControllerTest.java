@@ -31,72 +31,72 @@ public class TravelCalculatePremiumControllerTest {
     @Test
     public void successRequest() throws Exception {
         executeAndCompare(
-                "rest/TravelCalculatePremiumRequest_success.json",
-                "rest/TravelCalculatePremiumResponse_success.json"
+                "rest/Request/TravelCalculatePremiumRequest_success.json",
+                "rest/Response/TravelCalculatePremiumResponse_success.json"
         );
     }
 
     @Test
     public void firstNameNotProvided() throws Exception {
         executeAndCompare(
-                "rest/TravelCalculatePremiumRequest_firstName_not_provided.json",
-                "rest/TravelCalculatePremiumResponse_firstName_not_provided.json"
+                "rest/Request/TravelCalculatePremiumRequest_firstName_not_provided.json",
+                "rest/Response/TravelCalculatePremiumResponse_firstName_not_provided.json"
         );
     }
 
     @Test
     public void lastNameNotProvided() throws Exception {
         executeAndCompare(
-                "rest/TravelCalculatePremiumRequest_lastName_not_provided.json",
-                "rest/TravelCalculatePremiumResponse_lastName_not_provided.json"
+                "rest/Request/TravelCalculatePremiumRequest_lastName_not_provided.json",
+                "rest/Response/TravelCalculatePremiumResponse_lastName_not_provided.json"
         );
     }
 
     @Test
     public void agreementDateFromNotProvided() throws Exception {
         executeAndCompare(
-                "rest/TravelCalculatePremiumRequest_agreementDateFrom_not_provided.json",
-                "rest/TravelCalculatePremiumResponse_agreementDateFrom_not_provided.json"
+                "rest/Request/TravelCalculatePremiumRequest_agreementDateFrom_not_provided.json",
+                "rest/Response/TravelCalculatePremiumResponse_agreementDateFrom_not_provided.json"
         );
     }
 
     @Test
     public void selectedRisksIsNull() throws Exception {
         executeAndCompare(
-                "rest/TravelCalculatePremiumRequest_selectedRisks_null.json",
-                "rest/TravelCalculatePremiumResponse_selectedRisks_null.json"
+                "rest/Request/TravelCalculatePremiumRequest_selectedRisks_null.json",
+                "rest/Response/TravelCalculatePremiumResponse_selectedRisks_null.json"
         );
     }
 
     @Test
     public void selectedRisksIsEmpty() throws Exception {
         executeAndCompare(
-                "rest/TravelCalculatePremiumRequest_selectedRisks_empty.json",
-                "rest/TravelCalculatePremiumResponse_selectedRisks_empty.json"
+                "rest/Request/TravelCalculatePremiumRequest_selectedRisks_empty.json",
+                "rest/Response/TravelCalculatePremiumResponse_selectedRisks_empty.json"
         );
     }
 
     @Test
     public void agreementDateToNotProvided() throws Exception {
         executeAndCompare(
-                "rest/TravelCalculatePremiumRequest_agreementDateTo_not_provided.json",
-                "rest/TravelCalculatePremiumResponse_agreementDateTo_not_provided.json"
+                "rest/Request/TravelCalculatePremiumRequest_agreementDateTo_not_provided.json",
+                "rest/Response/TravelCalculatePremiumResponse_agreementDateTo_not_provided.json"
         );
     }
 
     @Test
     public void agreementDateToLessThenAgreementDateFrom() throws Exception {
         executeAndCompare(
-                "rest/TravelCalculatePremiumRequest_dateTo_lessThen_dateFrom.json",
-                "rest/TravelCalculatePremiumResponse_dateTo_lessThen_dateFrom.json"
+                "rest/Request/TravelCalculatePremiumRequest_dateTo_lessThen_dateFrom.json",
+                "rest/Response/TravelCalculatePremiumResponse_dateTo_lessThen_dateFrom.json"
         );
     }
 
     @Test
     public void allFieldsNotProvided() throws Exception {
         executeAndCompare(
-                "rest/TravelCalculatePremiumRequest_allFields_not_provided.json",
-                "rest/TravelCalculatePremiumResponse_allFields_not_provided.json"
+                "rest/Request/TravelCalculatePremiumRequest_allFields_not_provided.json",
+                "rest/Response/TravelCalculatePremiumResponse_allFields_not_provided.json"
         );
     }
 

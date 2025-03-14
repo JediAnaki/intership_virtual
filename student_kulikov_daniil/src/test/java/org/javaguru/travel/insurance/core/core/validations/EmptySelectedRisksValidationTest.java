@@ -31,7 +31,7 @@ public class EmptySelectedRisksValidationTest {
         when(request.getSelectedRisks()).thenReturn(null);
         ValidationError validationError = mock(ValidationError.class);
         when(errorFactory.buildError("ERROR_CODE_6")).thenReturn(validationError);
-        Optional<ValidationError> errorOpt = validator.execute(request);
+        Optional<ValidationError> errorOpt = validator.validate(request);
         assertTrue(errorOpt.isPresent());
         assertSame(errorOpt.get(), validationError);
     }
@@ -42,7 +42,7 @@ public class EmptySelectedRisksValidationTest {
         when(request.getSelectedRisks()).thenReturn(List.of());
         ValidationError validationError = mock(ValidationError.class);
         when(errorFactory.buildError("ERROR_CODE_6")).thenReturn(validationError);
-        Optional<ValidationError> errorOpt = validator.execute(request);
+        Optional<ValidationError> errorOpt = validator.validate(request);
         assertTrue(errorOpt.isPresent());
         assertSame(errorOpt.get(), validationError);
     }

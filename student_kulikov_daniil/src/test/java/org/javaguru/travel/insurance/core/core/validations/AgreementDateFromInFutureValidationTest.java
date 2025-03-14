@@ -27,11 +27,11 @@ public class AgreementDateFromInFutureValidationTest {
         request.setAgreementDateFrom(LocalDate.of(2020, 10, 10));
         request.setAgreementDateTo(LocalDate.of(2023, 10, 10));
 
-        when(validator.execute(request)).thenReturn(
+        when(validator.validate(request)).thenReturn(
                 Optional.of(new ValidationError("ERROR_CODE_1", "error description"))
         );
 
-        Optional<ValidationError> errors = validator.execute(request);
+        Optional<ValidationError> errors = validator.validate(request);
 
         assertTrue(errors.isPresent());
         assertEquals("ERROR_CODE_1", errors.get().getErrorCode());

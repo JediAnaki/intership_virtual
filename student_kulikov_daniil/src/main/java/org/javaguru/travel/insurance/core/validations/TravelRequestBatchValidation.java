@@ -3,8 +3,8 @@ package org.javaguru.travel.insurance.core.validations;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.ValidationError;
 
-import java.util.Optional;
+import java.util.List;
 
-public interface TravelRequestValidation {
-    Optional<ValidationError> validate(TravelCalculatePremiumRequest request);
+interface TravelRequestBatchValidation {
+    List<ValidationError> validateList(TravelCalculatePremiumRequest request);
 }
