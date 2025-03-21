@@ -1,7 +1,8 @@
 package org.javaguru.travel.insurance.core.core.services;
 
 import org.javaguru.travel.insurance.core.services.TravelCalculatePremiumServiceImpl;
-import org.javaguru.travel.insurance.core.underwriting.TravelCalculatePremiumUnderwritingImpl;
+import org.javaguru.travel.insurance.core.underwriting.TravelPremiumCalculationResult;
+import org.javaguru.travel.insurance.core.underwriting.TravelPremiumUnderwriting;
 import org.javaguru.travel.insurance.core.validations.TravelCalculatePremiumRequestValidator;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumResponse;
@@ -26,7 +27,7 @@ class TravelCalculatePremiumServiceImplTest {
     @Mock
     private TravelCalculatePremiumRequestValidator requestValidator;
     @Mock
-    private TravelCalculatePremiumUnderwritingImpl premiumUnderwriting;
+    private TravelPremiumUnderwriting premiumUnderwriting;
 
     @InjectMocks
     private TravelCalculatePremiumServiceImpl premiumService;
@@ -45,7 +46,8 @@ class TravelCalculatePremiumServiceImplTest {
     void shouldPopulatePersonFirstName() {
         //Arrange
         var request = init();
-        when(premiumUnderwriting.calculatePremium(request)).thenReturn(new BigDecimal(0L));
+        TravelPremiumCalculationResult premiumCalculationResult = new TravelPremiumCalculationResult(new BigDecimal(0L), null);
+        when(premiumUnderwriting.calculatePremium(request)).thenReturn(premiumCalculationResult);
         when(requestValidator.validate(request)).thenReturn(List.of());
 
         //Act
@@ -61,7 +63,8 @@ class TravelCalculatePremiumServiceImplTest {
     void shouldPopulatePersonLastName() {
         //Arrange
         var request = init();
-        when(premiumUnderwriting.calculatePremium(request)).thenReturn(new BigDecimal(0L));
+        TravelPremiumCalculationResult premiumCalculationResult = new TravelPremiumCalculationResult(new BigDecimal(9L), null);
+        when(premiumUnderwriting.calculatePremium(request)).thenReturn(premiumCalculationResult);
         when(requestValidator.validate(request)).thenReturn(List.of());
 
         //Act
@@ -75,7 +78,8 @@ class TravelCalculatePremiumServiceImplTest {
     void shouldPopulatePersonDateFrom() {
         //Arrange
         var request = init();
-        when(premiumUnderwriting.calculatePremium(request)).thenReturn(new BigDecimal(0L));
+        TravelPremiumCalculationResult premiumCalculationResult = new TravelPremiumCalculationResult(new BigDecimal(0L), null);
+        when(premiumUnderwriting.calculatePremium(request)).thenReturn(premiumCalculationResult);
         when(requestValidator.validate(request)).thenReturn(List.of());
 
         //Act
@@ -89,7 +93,8 @@ class TravelCalculatePremiumServiceImplTest {
     void shouldPopulatePersonDateTo() {
         //Arrange
         var request = init();
-        when(premiumUnderwriting.calculatePremium(request)).thenReturn(new BigDecimal(0L));
+        TravelPremiumCalculationResult premiumCalculationResult = new TravelPremiumCalculationResult(new BigDecimal(0L), null);
+        when(premiumUnderwriting.calculatePremium(request)).thenReturn(premiumCalculationResult);
         when(requestValidator.validate(request)).thenReturn(List.of());
 
         //Act
