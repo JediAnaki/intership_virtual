@@ -1,6 +1,5 @@
-package org.javaguru.travel.insurance.core.core.util;
+package org.javaguru.travel.insurance.core.util;
 
-import org.javaguru.travel.insurance.core.util.DateTimeUtil;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

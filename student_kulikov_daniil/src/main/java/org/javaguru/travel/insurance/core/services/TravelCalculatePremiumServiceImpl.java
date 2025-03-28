@@ -22,8 +22,8 @@ public class TravelCalculatePremiumServiceImpl implements TravelCalculatePremium
     public TravelCalculatePremiumResponse calculatePremium(TravelCalculatePremiumRequest request) {
         List<ValidationError> errors = validator.validate(request);
         return errors.isEmpty()
-                ? getTravelCalculatePremiumResponse(errors)
-                : getTravelCalculatePremiumResponse(request, premium.calculatePremium(request));
+                ? getTravelCalculatePremiumResponse(request, premium.calculatePremium(request))
+                : getTravelCalculatePremiumResponse(errors);
     }
 
     private static TravelCalculatePremiumResponse getTravelCalculatePremiumResponse(List<ValidationError> errors) {
@@ -37,6 +37,7 @@ public class TravelCalculatePremiumServiceImpl implements TravelCalculatePremium
         response.setPersonLastName(request.getPersonLastName());
         response.setAgreementDateFrom(request.getAgreementDateFrom());
         response.setAgreementDateTo(request.getAgreementDateTo());
+        response.setCountry(request.getCountry());
         response.setAgreementPremium(premiumCalculationResult.totalPremium());
         response.setRisks(premiumCalculationResult.riskPremiums());
         return response;

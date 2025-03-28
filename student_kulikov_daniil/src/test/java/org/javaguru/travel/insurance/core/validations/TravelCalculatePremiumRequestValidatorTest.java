@@ -1,6 +1,5 @@
-package org.javaguru.travel.insurance.core.core.validations;
+package org.javaguru.travel.insurance.core.validations;
 
-import org.javaguru.travel.insurance.core.validations.*;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.ValidationError;
 
@@ -44,10 +43,10 @@ public class TravelCalculatePremiumRequestValidatorTest {
     public void shouldReturnErrors() {
         TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
         TravelRequestValidation validation1 = mock(TravelRequestValidation.class);
-        when(validation1.validate(request)).thenReturn(Optional.of(new ValidationError()));
+        when(validation1.validate(request)).thenReturn(Optional.of(new ValidationError("errorCode", "description")));
 
         TravelRequestValidation validation2 = mock(TravelRequestValidation.class);
-        when(validation2.validate(request)).thenReturn(Optional.of(new ValidationError()));
+        when(validation2.validate(request)).thenReturn(Optional.of(new ValidationError("errorCode", "description")));
 
         List<TravelRequestValidation> travelValidationOptionals = List.of(validation1, validation2);
         ReflectionTestUtils.setField(validator, "travelValidationOptionals", travelValidationOptionals);

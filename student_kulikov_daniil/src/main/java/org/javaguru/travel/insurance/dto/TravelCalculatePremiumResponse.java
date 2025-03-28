@@ -24,6 +24,8 @@ public class TravelCalculatePremiumResponse extends CoreResponse {
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate agreementDateTo;
 
+    private String country;
+
     private BigDecimal agreementPremium;
 
     private List<RiskPremium> risks;
