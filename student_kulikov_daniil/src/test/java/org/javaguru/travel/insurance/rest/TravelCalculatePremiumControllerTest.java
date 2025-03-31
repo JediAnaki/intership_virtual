@@ -2,8 +2,6 @@ package org.javaguru.travel.insurance.rest;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.skyscreamer.jsonassert.JSONAssert;
-import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,11 +11,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import static uk.org.webcompere.modelassert.json.JsonAssertions.assertJson;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -29,26 +25,42 @@ public class TravelCalculatePremiumControllerTest {
     @Autowired private JsonFileReader jsonFileReader;
 
     @Test
-    public void successRequest() throws Exception {
+    public void successRequestTravelMedical() throws Exception {
         executeAndCompare(
-                "rest/Request/TravelCalculatePremiumRequest_success.json",
-                "rest/Response/TravelCalculatePremiumResponse_success.json"
+                "rest/Request/TravelCalculatePremiumRequest_travel_medical_success.json",
+                "rest/Response/TravelCalculatePremiumResponse_travel_medical_success.json"
         );
     }
 
     @Test
-    public void firstNameNotProvided() throws Exception {
+    public void personFirstNameIsNull() throws Exception {
         executeAndCompare(
-                "rest/Request/TravelCalculatePremiumRequest_firstName_not_provided.json",
-                "rest/Response/TravelCalculatePremiumResponse_firstName_not_provided.json"
+                "rest/Request/TravelCalculatePremiumRequest_personFirstName_is_null.json",
+                "rest/Response/TravelCalculatePremiumResponse_personFirstName_is_null.json"
         );
     }
 
     @Test
-    public void lastNameNotProvided() throws Exception {
+    public void personFirstNameIsEmpty() throws Exception {
         executeAndCompare(
-                "rest/Request/TravelCalculatePremiumRequest_lastName_not_provided.json",
-                "rest/Response/TravelCalculatePremiumResponse_lastName_not_provided.json"
+                "rest/Request/TravelCalculatePremiumRequest_personFirstName_is_empty.json",
+                "rest/Response/TravelCalculatePremiumResponse_personFirstName_is_empty.json"
+        );
+    }
+
+    @Test
+    public void personLastNameIsNull() throws Exception {
+        executeAndCompare(
+                "rest/Request/TravelCalculatePremiumRequest_personLastName_is_null.json",
+                "rest/Response/TravelCalculatePremiumResponse_personLastName_is_null.json"
+        );
+    }
+
+    @Test
+    public void personLastNameIsEmpty() throws Exception {
+        executeAndCompare(
+                "rest/Request/TravelCalculatePremiumRequest_personLastName_is_empty.json",
+                "rest/Response/TravelCalculatePremiumResponse_personLastName_is_empty.json"
         );
     }
 
@@ -57,6 +69,38 @@ public class TravelCalculatePremiumControllerTest {
         executeAndCompare(
                 "rest/Request/TravelCalculatePremiumRequest_agreementDateFrom_not_provided.json",
                 "rest/Response/TravelCalculatePremiumResponse_agreementDateFrom_not_provided.json"
+        );
+    }
+
+    @Test
+    public void agreementDateToNotProvided() throws Exception {
+        executeAndCompare(
+                "rest/Request/TravelCalculatePremiumRequest_agreementDateTo_not_provided.json",
+                "rest/Response/TravelCalculatePremiumResponse_agreementDateTo_not_provided.json"
+        );
+    }
+
+    @Test
+    public void agreementDateFromIsInThePast() throws Exception {
+        executeAndCompare(
+                "rest/Request/TravelCalculatePremiumRequest_agreementDateFrom_in_the_past.json",
+                "rest/Response/TravelCalculatePremiumResponse_agreementDateFrom_in_the_past.json"
+        );
+    }
+
+    @Test
+    public void agreementDateToIsInThePast() throws Exception {
+        executeAndCompare(
+                "rest/Request/TravelCalculatePremiumRequest_agreementDateTo_in_the_past.json",
+                "rest/Response/TravelCalculatePremiumResponse_agreementDateTo_in_the_past.json"
+        );
+    }
+
+    @Test
+    public void agreementDateToLessThenAgreementDateFrom() throws Exception {
+        executeAndCompare(
+                "rest/Request/TravelCalculatePremiumRequest_dateTo_lessThen_dateFrom.json",
+                "rest/Response/TravelCalculatePremiumResponse_dateTo_lessThen_dateFrom.json"
         );
     }
 
@@ -77,18 +121,26 @@ public class TravelCalculatePremiumControllerTest {
     }
 
     @Test
-    public void agreementDateToNotProvided() throws Exception {
+    public void selectedRisksNotSupported() throws Exception {
         executeAndCompare(
-                "rest/Request/TravelCalculatePremiumRequest_agreementDateTo_not_provided.json",
-                "rest/Response/TravelCalculatePremiumResponse_agreementDateTo_not_provided.json"
+                "rest/Request/TravelCalculatePremiumRequest_selectedRisks_not_supported.json",
+                "rest/Response/TravelCalculatePremiumResponse_selectedRisks_not_supported.json"
         );
     }
 
     @Test
-    public void agreementDateToLessThenAgreementDateFrom() throws Exception {
+    public void countryIsNullWhenTravelMedicalRiskSelected() throws Exception {
         executeAndCompare(
-                "rest/Request/TravelCalculatePremiumRequest_dateTo_lessThen_dateFrom.json",
-                "rest/Response/TravelCalculatePremiumResponse_dateTo_lessThen_dateFrom.json"
+                "rest/Request/TravelCalculatePremiumRequest_country_is_null_travel_medical.json",
+                "rest/Response/TravelCalculatePremiumResponse_country_is_null_travel_medical.json"
+        );
+    }
+
+    @Test
+    public void countryIsEmptyWhenTravelMedicalRiskSelected() throws Exception {
+        executeAndCompare(
+                "rest/Request/TravelCalculatePremiumRequest_country_is_empty_travel_medical.json",
+                "rest/Response/TravelCalculatePremiumResponse_country_is_empty_travel_medical.json"
         );
     }
 
@@ -114,9 +166,11 @@ public class TravelCalculatePremiumControllerTest {
 
         String jsonResponse = jsonFileReader.readJsonFromFile(jsonResponseFilePath);
 
-        JSONAssert.assertEquals(responseBodyContent,
-                                    jsonResponse,
-                                JSONCompareMode.LENIENT);
-
+        assertJson(responseBodyContent)
+                .where()
+                .keysInAnyOrder()
+                .arrayInAnyOrder()
+                .isEqualTo(jsonResponse);
     }
+
 }

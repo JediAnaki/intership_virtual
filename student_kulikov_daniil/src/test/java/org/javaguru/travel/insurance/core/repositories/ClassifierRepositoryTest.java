@@ -1,7 +1,6 @@
 package org.javaguru.travel.insurance.core.repositories;
 
 import org.javaguru.travel.insurance.core.domain.Classifier;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +16,15 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 class ClassifierRepositoryTest {
 
-    @Autowired private ClassifierRepository classifierRepository;
+    @Autowired
+    private ClassifierRepository classifierRepository;
 
     @Test
-    @DisplayName("Test: Classifier table is present")
     public void injectedRepositoryAreNotNull() {
         assertNotNull(classifierRepository);
     }
 
     @Test
-    @DisplayName("Test: Can find record by Title")
     public void shouldFindRiskTypeClassifier() {
         Optional<Classifier> riskTypeOpt = classifierRepository.findByTitle("RISK_TYPE");
         assertTrue(riskTypeOpt.isPresent());
@@ -34,9 +32,8 @@ class ClassifierRepositoryTest {
     }
 
     @Test
-    @DisplayName("Test: Can't find record with Fake title")
     public void shouldNotFindFakeClassifier() {
-        Optional<Classifier> riskTypeOpt = classifierRepository.findByTitle("RISKS_TYPE");
+        Optional<Classifier> riskTypeOpt = classifierRepository.findByTitle("FAKE");
         assertTrue(riskTypeOpt.isEmpty());
     }
 

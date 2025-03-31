@@ -1,24 +1,19 @@
 package org.javaguru.travel.insurance.rest;
 
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
+import java.io.File;
+import java.nio.file.Files;
 
 @Component
 public class JsonFileReader {
     public String readJsonFromFile(String filePath) {
-        ClassLoader classLoader = JsonFileReader.class.getClassLoader();
-        try (InputStream inputStream = classLoader.getResourceAsStream(filePath)) {
-            if (inputStream == null) {
-                throw new RuntimeException("Файл не найден в classpath: " + filePath);
-            }
-            try (Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8)) {
-                return scanner.useDelimiter("\\A").next();
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Ошибка при чтении JSON-файла: " + filePath, e);
+        try {
+            File file = ResourceUtils.getFile("classpath:" + filePath);
+            return new String(Files.readAllBytes(file.toPath()));
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
         }
     }
 }
