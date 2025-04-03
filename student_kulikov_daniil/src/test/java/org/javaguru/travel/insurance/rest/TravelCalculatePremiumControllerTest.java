@@ -65,6 +65,22 @@ public class TravelCalculatePremiumControllerTest {
     }
 
     @Test
+    public void personBirthDateIsNull() throws Exception {
+        executeAndCompare(
+                "rest/Request/TravelCalculatePremiumRequest_personBirthDate_is_null.json",
+                "rest/Response/TravelCalculatePremiumResponse_personBirthDate_is_null.json"
+        );
+    }
+
+    @Test
+    public void personBirthDateIsInTheFuture() throws Exception {
+        executeAndCompare(
+                "rest/Request/TravelCalculatePremiumRequest_personBirthDate_in_the_future.json",
+                "rest/Response/TravelCalculatePremiumResponse_personBirthDate_in_the_future.json"
+        );
+    }
+
+    @Test
     public void agreementDateFromNotProvided() throws Exception {
         executeAndCompare(
                 "rest/Request/TravelCalculatePremiumRequest_agreementDateFrom_not_provided.json",

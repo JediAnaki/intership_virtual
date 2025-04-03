@@ -1,9 +1,7 @@
 package org.javaguru.travel.insurance.core.underwriting.calculators.medical;
 
-import org.javaguru.travel.insurance.core.domain.CountryDefaultDayRate;
-import org.javaguru.travel.insurance.core.repositories.CountryDefaultDayRateRepository;
-import org.javaguru.travel.insurance.core.util.DateTimeUtil;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -11,33 +9,44 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
-import java.util.Optional;
+import java.math.RoundingMode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class TravelMedicalRiskPremiumCalculatorTest {
 
-    @Mock private DateTimeUtil dateTimeUtil;
-    @Mock private CountryDefaultDayRateRepository countryDefaultDayRateRepository;
+    @Mock private DayCountCalculator dayCountCalculator;
+    @Mock private CountryDefaultDayRateCalculator countryDefaultDayRateCalculator;
+    @Mock private AgeCoefficientCalculator ageCoefficientCalculator;
 
     @InjectMocks
     private MedicalRiskCalculator calculator;
 
+    private TravelCalculatePremiumRequest request;
+
+    @BeforeEach
+    void setUp() {
+        request = new TravelCalculatePremiumRequest();
+    }
+
     @Test
-    public void shouldCalculatePremium() {
-        TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
-        when(request.getCountry()).thenReturn("SPAIN");
-        when(dateTimeUtil.getDaysBetween(any(), any())).thenReturn(2L);
-        CountryDefaultDayRate countryDefaultDayRate = mock(CountryDefaultDayRate.class);
-        when(countryDefaultDayRate.getDefaultDayRate()).thenReturn(BigDecimal.TEN);
-        when(countryDefaultDayRateRepository.findByCountryIc("SPAIN")).thenReturn(Optional.of(countryDefaultDayRate));
-        BigDecimal premium = calculator.calculatePremium(request);
-        assertEquals(premium.stripTrailingZeros(),
-                new BigDecimal("20").stripTrailingZeros());
+    void shouldCalculatePremiumCorrectly() {
+        BigDecimal daysCount = BigDecimal.valueOf(10);
+        BigDecimal countryDefaultRate = BigDecimal.valueOf(20);
+        BigDecimal ageCoefficient = BigDecimal.valueOf(1.2);
+
+        when(dayCountCalculator.calculate(request)).thenReturn(daysCount);
+        when(countryDefaultDayRateCalculator.calculate(request)).thenReturn(countryDefaultRate);
+        when(ageCoefficientCalculator.calculate(request)).thenReturn(ageCoefficient);
+
+        BigDecimal expectedPremium = countryDefaultRate.multiply(daysCount).multiply(ageCoefficient)
+                .setScale(2, RoundingMode.HALF_UP);
+
+        BigDecimal result = calculator.calculatePremium(request);
+
+        assertEquals(expectedPremium, result);
     }
 
 }

@@ -48,15 +48,27 @@ CREATE UNIQUE INDEX `ix_country_default_day_rate_country_ic`
 
 
 CREATE TABLE IF NOT EXISTS `age_coefficient` (
-                                                 `id` BIGINT NOT NULL AUTO_INCREMENT,
-                                                 `age_from` INT NOT NULL,
-                                                 `age_to` INT NOT NULL,
-                                                 `coefficient` DECIMAL(10,2) NOT NULL,
+   `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `age_from` INT NOT NULL,
+    `age_to` INT NOT NULL,
+    `coefficient` DECIMAL(10,2) NOT NULL,
     PRIMARY KEY (`id`)
-    )
+)
     ENGINE = InnoDB
     AUTO_INCREMENT = 1002;
 
+
+CREATE TABLE IF not EXISTS `medical_risk_limit_level` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `medical_risk_limit_level_ic` VARCHAR(200) NOT NULL,
+    `coefficient` DECIMAL(10,2) NOT NULL,
+    PRIMARY KEY (`id`)
+)
+    ENGINE = InnoDB
+    AUTO_INCREMENT = 1002;
+
+CREATE UNIQUE INDEX `ix_medical_risk_limit_level_limit_level_ic`
+ON `medical_risk_limit_level` (`medical_risk_limit_level_ic`);
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

@@ -9,15 +9,16 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 class ClassifierRepositoryTest {
 
-    @Autowired
-    private ClassifierRepository classifierRepository;
+    @Autowired private ClassifierRepository classifierRepository;
 
     @Test
     public void injectedRepositoryAreNotNull() {
