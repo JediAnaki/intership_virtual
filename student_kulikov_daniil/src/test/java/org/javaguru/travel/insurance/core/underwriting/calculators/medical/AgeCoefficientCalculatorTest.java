@@ -39,6 +39,7 @@ class AgeCoefficientCalculatorTest {
 
     @Test
     void shouldFindCoefficientWhenAgeCoefficientExists() {
+        var calculator = new AgeCoefficientCalculator(true, dateTimeUtil, ageCoefficientRepository);
         int age = 33;
         BigDecimal expectedCoefficient = BigDecimal.valueOf(1.2);
 
@@ -54,6 +55,7 @@ class AgeCoefficientCalculatorTest {
 
     @Test
     void shouldThrowExceptionWhenAgeCoefficientNotFound() {
+        var calculator = new AgeCoefficientCalculator(true, dateTimeUtil, ageCoefficientRepository);
         int age = 33;
 
         when(dateTimeUtil.getCurrentDateTime()).thenReturn(LocalDate.of(2023, 3, 27));

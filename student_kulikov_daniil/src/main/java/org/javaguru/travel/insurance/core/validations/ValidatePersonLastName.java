@@ -19,7 +19,4 @@ public class ValidatePersonLastName implements TravelRequestValidation {
                 ? Optional.of(errorFactory.buildError("ERROR_CODE_8"))
                 : Optional.empty();
     }
-
-
-
 }

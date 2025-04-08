@@ -11,11 +11,12 @@ import java.math.RoundingMode;
 
 @Component
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-public class MedicalRiskCalculator implements TravelRiskPremiumCalculator {
+class MedicalRiskCalculator implements TravelRiskPremiumCalculator {
 
     private final DayCountCalculator dayCountCalculator;
     private final AgeCoefficientCalculator ageCoefficientCalculator;
     private final CountryDefaultDayRateCalculator countryDefaultDayRateCalculator;
+    private final RiskLimitLevelCalculator riskLimitLevelCalculator;
 
 
     @Override
@@ -23,9 +24,11 @@ public class MedicalRiskCalculator implements TravelRiskPremiumCalculator {
         var daysCount = dayCountCalculator.calculate(request);
         var countryDefaultRate = countryDefaultDayRateCalculator.calculate(request);
         var ageCoefficient = ageCoefficientCalculator.calculate(request);
+        var riskLimitLevel = riskLimitLevelCalculator.calculate(request);
         return countryDefaultRate
                 .multiply(daysCount)
                 .multiply(ageCoefficient)
+                .multiply(riskLimitLevel)
                 .setScale(2, RoundingMode.HALF_UP);
     }
 
