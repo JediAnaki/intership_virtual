@@ -188,6 +188,7 @@ SELECT
 FROM classifiers as cl
 WHERE cl.title = 'MEDICAL_RISK_LIMIT_LEVEL';
 
+
 INSERT INTO medical_risk_limit_level(medical_risk_limit_level_ic, coefficient)
 VALUES('LEVEL_10000', 1.0);
 
