@@ -1,25 +1,15 @@
-package org.javaguru.travel.insurance.dto;
+package org.javaguru.travel.insurance.dto.v2;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.*;
+import org.javaguru.travel.insurance.dto.CoreResponse;
+import org.javaguru.travel.insurance.dto.ValidationError;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class TravelCalculatePremiumRequest {
-
-    private String personFirstName;
-    private String personLastName;
-
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate personBirthDate;
+public class TravelCalculatePremiumResponseV2 extends CoreResponse {
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -36,4 +26,10 @@ public class TravelCalculatePremiumRequest {
     @JsonAlias("selected_risks")
     private List<String> selectedRisks;
 
+    @JsonAlias("persons")
+    private List<PersonResponseDTO> persons;
+
+    public TravelCalculatePremiumResponseV2(List<ValidationError> errors) {
+        super(errors);
+    }
 }

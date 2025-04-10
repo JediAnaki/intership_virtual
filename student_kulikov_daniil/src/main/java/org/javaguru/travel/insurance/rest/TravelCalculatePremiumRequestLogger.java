@@ -2,7 +2,7 @@ package org.javaguru.travel.insurance.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
+import org.javaguru.travel.insurance.dto.v1.TravelCalculatePremiumRequestV1;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -13,7 +13,7 @@ class TravelCalculatePremiumRequestLogger {
 
     private static final Logger logger = LoggerFactory.getLogger(TravelCalculatePremiumRequestLogger.class);
 
-    void log(TravelCalculatePremiumRequest request) {
+    void log(TravelCalculatePremiumRequestV1 request) {
         ObjectMapper objectMapper = new ObjectMapper()
                 .registerModule(new JavaTimeModule());
         try {
