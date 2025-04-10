@@ -1,6 +1,6 @@
 package org.javaguru.travel.insurance.core.validations;
 
-import org.javaguru.travel.insurance.dto.v1.TravelCalculatePremiumRequestV1;
+import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.ValidationError;
 import org.junit.jupiter.api.Test;
 
@@ -10,11 +10,11 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class TravelCalculatePremiumRequestV1ValidatorTest {
+public class TravelCalculatePremiumRequestValidatorTest {
 
     @Test
     public void shouldNotReturnErrors() {
-        TravelCalculatePremiumRequestV1 request = mock(TravelCalculatePremiumRequestV1.class);
+        TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
 
         // Моки для одиночных валидаций
         TravelRequestValidation singleValidation1 = mock(TravelRequestValidation.class);
@@ -40,7 +40,7 @@ public class TravelCalculatePremiumRequestV1ValidatorTest {
 
     @Test
     public void shouldReturnSingleErrors() {
-        TravelCalculatePremiumRequestV1 request = mock(TravelCalculatePremiumRequestV1.class);
+        TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
 
         // Моки для одиночных валидаций, возвращающие ошибки
         TravelRequestValidation singleValidation1 = mock(TravelRequestValidation.class);
@@ -68,7 +68,7 @@ public class TravelCalculatePremiumRequestV1ValidatorTest {
 
     @Test
     public void shouldReturnListErrors() {
-        TravelCalculatePremiumRequestV1 request = mock(TravelCalculatePremiumRequestV1.class);
+        TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
 
         // Одиночные валидации без ошибок
         TravelRequestValidation singleValidation1 = mock(TravelRequestValidation.class);
@@ -96,7 +96,7 @@ public class TravelCalculatePremiumRequestV1ValidatorTest {
 
     @Test
     public void shouldReturnBothSingleAndListErrors() {
-        TravelCalculatePremiumRequestV1 request = mock(TravelCalculatePremiumRequestV1.class);
+        TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
 
         // Одиночные валидации с ошибками
         TravelRequestValidation singleValidation = mock(TravelRequestValidation.class);

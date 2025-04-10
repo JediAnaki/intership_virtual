@@ -3,7 +3,7 @@ package org.javaguru.travel.insurance.core.validations;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.javaguru.travel.insurance.core.repositories.ClassifierValueRepository;
-import org.javaguru.travel.insurance.dto.v1.TravelCalculatePremiumRequestV1;
+import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.ValidationError;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +17,7 @@ class MedicalRiskLimitLevelValidation implements TravelRequestValidation {
     private final ValidationErrorFactory errorFactory;
 
     @Override
-    public Optional<ValidationError> validate(TravelCalculatePremiumRequestV1 request) {
+    public Optional<ValidationError> validate(TravelCalculatePremiumRequest request) {
         return (isMedicalRiskLimitLevelNotBlank(request))
                 && !existInDatabase(request.getMedicalRiskLimitLevel())
                 ? Optional.of(errorFactory.buildError("ERROR_CODE_14"))
@@ -25,7 +25,7 @@ class MedicalRiskLimitLevelValidation implements TravelRequestValidation {
     }
 
 
-    private boolean isMedicalRiskLimitLevelNotBlank(TravelCalculatePremiumRequestV1 request) {
+    private boolean isMedicalRiskLimitLevelNotBlank(TravelCalculatePremiumRequest request) {
         return request.getMedicalRiskLimitLevel() != null && !request.getMedicalRiskLimitLevel().isBlank();
     }
 

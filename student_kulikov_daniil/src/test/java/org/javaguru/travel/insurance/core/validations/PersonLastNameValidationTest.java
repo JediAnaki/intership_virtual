@@ -1,6 +1,6 @@
 package org.javaguru.travel.insurance.core.validations;
 
-import org.javaguru.travel.insurance.dto.v1.TravelCalculatePremiumRequestV1;
+import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.ValidationError;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,7 +25,7 @@ public class PersonLastNameValidationTest {
 
     @Test
     public void shouldReturnErrorWhenPersonLastNameIsNull() {
-        TravelCalculatePremiumRequestV1 request = mock(TravelCalculatePremiumRequestV1.class);
+        TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
         when(request.getPersonLastName()).thenReturn(null);
         ValidationError validationError = mock(ValidationError.class);
         when(errorFactory.buildError("ERROR_CODE_8")).thenReturn(validationError);
@@ -36,7 +36,7 @@ public class PersonLastNameValidationTest {
 
     @Test
     public void shouldReturnErrorWhenPersonLastNameIsEmpty() {
-        TravelCalculatePremiumRequestV1 request = mock(TravelCalculatePremiumRequestV1.class);
+        TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
         when(request.getPersonLastName()).thenReturn("");
         ValidationError validationError = mock(ValidationError.class);
         when(errorFactory.buildError("ERROR_CODE_8")).thenReturn(validationError);
@@ -47,7 +47,7 @@ public class PersonLastNameValidationTest {
 
     @Test
     public void shouldNotReturnErrorWhenPersonLastNameIsPresent() {
-        TravelCalculatePremiumRequestV1 request = mock(TravelCalculatePremiumRequestV1.class);
+        TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
         when(request.getPersonLastName()).thenReturn("Petrov");
         Optional<ValidationError> errorOpt = validator.validate(request);
         assertTrue(errorOpt.isEmpty());

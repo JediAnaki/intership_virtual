@@ -2,7 +2,7 @@ package org.javaguru.travel.insurance.core.validations;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import org.javaguru.travel.insurance.dto.v1.TravelCalculatePremiumRequestV1;
+import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.ValidationError;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,7 @@ class EmptyMedicalRiskLimitLevelValidation implements TravelRequestValidation {
     private final ValidationErrorFactory errorFactory;
 
     @Override
-    public Optional<ValidationError> validate(TravelCalculatePremiumRequestV1 request) {
+    public Optional<ValidationError> validate(TravelCalculatePremiumRequest request) {
         return (isMedicalRiskLimitLevelEnabled()
                     && containsTravelMedical(request)
                     && isMedicalRiskLimitLevelIsNullOrBlank(request))
@@ -31,12 +31,12 @@ class EmptyMedicalRiskLimitLevelValidation implements TravelRequestValidation {
         return medicalRiskLimitLevelEnabled;
     }
 
-    private boolean containsTravelMedical(TravelCalculatePremiumRequestV1 request) {
+    private boolean containsTravelMedical(TravelCalculatePremiumRequest request) {
         return request.getSelectedRisks() != null
                 && request.getSelectedRisks().contains("TRAVEL_MEDICAL");
     }
 
-    private boolean isMedicalRiskLimitLevelIsNullOrBlank(TravelCalculatePremiumRequestV1 request) {
+    private boolean isMedicalRiskLimitLevelIsNullOrBlank(TravelCalculatePremiumRequest request) {
         return request.getMedicalRiskLimitLevel() == null || request.getMedicalRiskLimitLevel().isBlank();
     }
 

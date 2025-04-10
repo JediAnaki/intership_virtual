@@ -2,8 +2,8 @@ package org.javaguru.travel.insurance.rest;
 
 import com.google.common.base.Stopwatch;
 import org.javaguru.travel.insurance.core.services.TravelCalculatePremiumService;
-import org.javaguru.travel.insurance.dto.v1.TravelCalculatePremiumRequestV1;
-import org.javaguru.travel.insurance.dto.v1.TravelCalculatePremiumResponseV1;
+import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
+import org.javaguru.travel.insurance.dto.TravelCalculatePremiumResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,16 +32,16 @@ public class TravelCalculatePremiumController {
     @PostMapping(path = "/",
             consumes = "application/json",
             produces = "application/json")
-    public TravelCalculatePremiumResponseV1 calculatePremium(@RequestBody TravelCalculatePremiumRequestV1 request) {
+    public TravelCalculatePremiumResponse calculatePremium(@RequestBody TravelCalculatePremiumRequest request) {
         Stopwatch stopwatch = Stopwatch.createStarted();
-        TravelCalculatePremiumResponseV1 response = extracted(request);
+        TravelCalculatePremiumResponse response = extracted(request);
         timeLogger.logTime(stopwatch);
         return response;
     }
 
-    private TravelCalculatePremiumResponseV1 extracted(TravelCalculatePremiumRequestV1 request) {
+    private TravelCalculatePremiumResponse extracted(TravelCalculatePremiumRequest request) {
         requestLogger.log(request);
-        TravelCalculatePremiumResponseV1 response = calculatePremiumService.calculatePremium(request);
+        TravelCalculatePremiumResponse response = calculatePremiumService.calculatePremium(request);
         responseLogger.log(response);
 
         return response;
