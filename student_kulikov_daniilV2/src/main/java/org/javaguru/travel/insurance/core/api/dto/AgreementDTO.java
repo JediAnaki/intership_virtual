@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -15,9 +15,9 @@ import java.util.List;
 @AllArgsConstructor
 public class AgreementDTO {
 
-    private Date agreementDateFrom;
+    private LocalDate agreementDateFrom;
 
-    private Date agreementDateTo;
+    private LocalDate agreementDateTo;
 
     private String country;
 

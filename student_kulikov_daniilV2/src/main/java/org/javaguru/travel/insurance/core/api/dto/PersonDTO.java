@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -18,7 +18,7 @@ public class PersonDTO {
 
     private String personLastName;
 
-    private Date personBirthDate;
+    private LocalDate personBirthDate;
 
     private List<RiskDTO> risks;
 

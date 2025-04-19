@@ -9,9 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -42,18 +40,9 @@ class AgreementDateFromValidationTest {
     @Test
     public void shouldNotReturnErrorWhenAgreementDateFromIsPresent() {
         AgreementDTO agreement = mock(AgreementDTO.class);
-        when(agreement.getAgreementDateFrom()).thenReturn(createDate("01.01.2025"));
+        when(agreement.getAgreementDateFrom()).thenReturn(LocalDate.of(2025, 1, 1));
         Optional<ValidationErrorDTO> errorOpt = validation.validate(agreement);
         assertTrue(errorOpt.isEmpty());
         verifyNoInteractions(errorFactory);
     }
-
-    private Date createDate(String dateStr) {
-        try {
-            return new SimpleDateFormat("dd.MM.yyyy").parse(dateStr);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 }

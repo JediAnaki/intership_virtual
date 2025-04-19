@@ -10,9 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -33,8 +31,8 @@ class PersonBirthDateInThePastValidationTest {
     @Test
     public void shouldReturnErrorWhenPersonBirthDateInTheFuture() {
         PersonDTO person = mock(PersonDTO.class);
-        when(person.getPersonBirthDate()).thenReturn(createDate("01.01.2030"));
-        when(dateTimeUtil.getCurrentDateTime()).thenReturn(createDate("01.01.2023"));
+        when(person.getPersonBirthDate()).thenReturn(LocalDate.of(2030, 1, 1));
+        when(dateTimeUtil.getCurrentDateTime()).thenReturn(LocalDate.of(2023, 1, 1));
         ValidationErrorDTO validationError = mock(ValidationErrorDTO.class);
         when(errorFactory.buildError("ERROR_CODE_12")).thenReturn(validationError);
         Optional<ValidationErrorDTO> errorOpt = validation.validate(person);
@@ -45,19 +43,10 @@ class PersonBirthDateInThePastValidationTest {
     @Test
     public void shouldNotReturnErrorWhenPersonBirthDateDateInThePast() {
         PersonDTO person = mock(PersonDTO.class);
-        when(person.getPersonBirthDate()).thenReturn(createDate("01.01.2020"));
-        when(dateTimeUtil.getCurrentDateTime()).thenReturn(createDate("01.01.2023"));
+        when(person.getPersonBirthDate()).thenReturn(LocalDate.of(2020, 1, 1));
+        when(dateTimeUtil.getCurrentDateTime()).thenReturn(LocalDate.of(2023, 1, 1));
         Optional<ValidationErrorDTO> errorOpt = validation.validate(person);
         assertTrue(errorOpt.isEmpty());
         verifyNoInteractions(errorFactory);
     }
-
-    private Date createDate(String dateStr) {
-        try {
-            return new SimpleDateFormat("dd.MM.yyyy").parse(dateStr);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 }

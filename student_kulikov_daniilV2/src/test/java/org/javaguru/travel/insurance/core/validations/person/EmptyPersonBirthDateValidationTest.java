@@ -9,7 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,7 +28,7 @@ class EmptyPersonBirthDateValidationTest {
     @Test
     public void shouldReturnNoErrorWhenPersonBirthDateIsPresent() {
         PersonDTO person = mock(PersonDTO.class);
-        when(person.getPersonBirthDate()).thenReturn(new Date());
+        when(person.getPersonBirthDate()).thenReturn(LocalDate.now());
         Optional<ValidationErrorDTO> errorOpt = validation.validate(person);
         assertTrue(errorOpt.isEmpty());
     }

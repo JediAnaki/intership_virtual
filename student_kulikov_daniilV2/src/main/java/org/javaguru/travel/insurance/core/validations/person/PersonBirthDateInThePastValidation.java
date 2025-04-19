@@ -8,7 +8,7 @@ import org.javaguru.travel.insurance.core.util.DateTimeUtil;
 import org.javaguru.travel.insurance.core.validations.ValidationErrorFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Component
@@ -20,9 +20,9 @@ class PersonBirthDateInThePastValidation extends TravelPersonFieldValidationImpl
 
     @Override
     public Optional<ValidationErrorDTO> validate(PersonDTO person) {
-        Date personBirthDate = person.getPersonBirthDate();
-        Date currentDateTime = dateTimeUtil.getCurrentDateTime();
-        return (personBirthDate != null && personBirthDate.after(currentDateTime))
+        LocalDate personBirthDate = person.getPersonBirthDate();
+        LocalDate currentDateTime = dateTimeUtil.getCurrentDateTime();
+        return (personBirthDate != null && personBirthDate.isAfter(currentDateTime))
                 ? Optional.of(errorFactory.buildError("ERROR_CODE_12"))
                 : Optional.empty();
     }

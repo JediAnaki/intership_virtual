@@ -1,47 +1,37 @@
 package org.javaguru.travel.insurance.core.util;
 
 import org.junit.jupiter.api.Test;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DateTimeUtilTest {
 
-    private DateTimeUtil dateTimeUtil = new DateTimeUtil();
+    private final DateTimeUtil dateTimeUtil = new DateTimeUtil();
 
     @Test
     public void shouldDaysBetweenBeZero() {
-        Date date1 = createDate("01.01.2023");
-        Date date2 = createDate("01.01.2023");
+        LocalDate date1 = LocalDate.of(2023, 1, 1);
+        LocalDate date2 = LocalDate.of(2023, 1, 1);
         var daysBetween = dateTimeUtil.getDaysBetween(date1, date2);
-        assertEquals(daysBetween, 0L);
+        assertEquals(0L, daysBetween);
     }
 
     @Test
     public void shouldDaysBetweenBePositive() {
-        Date date1 = createDate("01.01.2023");
-        Date date2 = createDate("10.01.2023");
+        LocalDate date1 = LocalDate.of(2023, 1, 1);
+        LocalDate date2 = LocalDate.of(2023, 1, 10);
         var daysBetween = dateTimeUtil.getDaysBetween(date1, date2);
-        assertEquals(daysBetween, 9L);
+        assertEquals(9L, daysBetween);
     }
 
     @Test
     public void shouldDaysBetweenBeNegative() {
-        Date date1 = createDate("10.01.2023");
-        Date date2 = createDate("01.01.2023");
+        LocalDate date1 = LocalDate.of(2023, 1, 10);
+        LocalDate date2 = LocalDate.of(2023, 1, 1);
         var daysBetween = dateTimeUtil.getDaysBetween(date1, date2);
-        assertEquals(daysBetween, -9L);
+        assertEquals(-9L, daysBetween);
     }
 
-    private Date createDate(String dateStr) {
-        try {
-            return new SimpleDateFormat("dd.MM.yyyy").parse(dateStr);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
 }

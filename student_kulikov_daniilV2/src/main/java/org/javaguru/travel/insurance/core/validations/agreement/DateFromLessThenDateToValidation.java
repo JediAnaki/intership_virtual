@@ -7,7 +7,7 @@ import org.javaguru.travel.insurance.core.api.dto.ValidationErrorDTO;
 import org.javaguru.travel.insurance.core.validations.ValidationErrorFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Component
@@ -18,10 +18,10 @@ class DateFromLessThenDateToValidation extends TravelAgreementFieldValidationImp
 
     @Override
     public Optional<ValidationErrorDTO> validate(AgreementDTO agreement) {
-        Date dateFrom = agreement.getAgreementDateFrom();
-        Date dateTo = agreement.getAgreementDateTo();
+        LocalDate dateFrom = agreement.getAgreementDateFrom();
+        LocalDate dateTo = agreement.getAgreementDateTo();
         return (dateFrom != null && dateTo != null
-                && (dateFrom.equals(dateTo) || dateFrom.after(dateTo)))
+                && (dateFrom.equals(dateTo) || dateFrom.isAfter(dateTo)))
                 ? Optional.of(errorFactory.buildError("ERROR_CODE_5"))
                 : Optional.empty();
     }

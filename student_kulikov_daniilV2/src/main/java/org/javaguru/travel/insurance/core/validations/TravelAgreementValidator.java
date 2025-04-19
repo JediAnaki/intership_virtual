@@ -6,5 +6,7 @@ import org.javaguru.travel.insurance.core.api.dto.ValidationErrorDTO;
 import java.util.List;
 
 public interface TravelAgreementValidator {
-    List<ValidationErrorDTO> validate(AgreementDTO agreementDTO);
+
+    List<ValidationErrorDTO> validate(AgreementDTO agreement);
+
 }

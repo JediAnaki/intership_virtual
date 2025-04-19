@@ -8,7 +8,7 @@ import org.javaguru.travel.insurance.core.util.DateTimeUtil;
 import org.javaguru.travel.insurance.core.validations.ValidationErrorFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Component
@@ -20,9 +20,9 @@ class AgreementDateToInFutureValidation extends TravelAgreementFieldValidationIm
 
     @Override
     public Optional<ValidationErrorDTO> validate(AgreementDTO agreement) {
-        Date dateTo = agreement.getAgreementDateTo();
-        Date currentDateTime = dateTimeUtil.getCurrentDateTime();
-        return (dateTo != null && dateTo.before(currentDateTime))
+        LocalDate dateTo = agreement.getAgreementDateTo();
+        LocalDate currentDateTime = dateTimeUtil.getCurrentDateTime();
+        return (dateTo != null && dateTo.isBefore(currentDateTime))
                 ? Optional.of(errorFactory.buildError("ERROR_CODE_3"))
                 : Optional.empty();
     }

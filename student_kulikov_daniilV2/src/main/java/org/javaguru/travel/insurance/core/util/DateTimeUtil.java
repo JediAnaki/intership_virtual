@@ -2,23 +2,18 @@ package org.javaguru.travel.insurance.core.util;
 
 import org.springframework.stereotype.Component;
 
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Component
 public class DateTimeUtil {
 
-    public long getDaysBetween(Date date1, Date date2) {
-        long diff = date2.getTime() - date1.getTime();
-        return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+    public long getDaysBetween(LocalDate date1, LocalDate date2) {
+        return ChronoUnit.DAYS.between(date1, date2 );
     }
 
-    public Date getCurrentDateTime() {
-        ZoneId zone = ZoneId.of("Europe/Riga");
-        ZonedDateTime zonedDateTime = ZonedDateTime.now(zone);
-        return Date.from(zonedDateTime.toInstant());
+    public LocalDate getCurrentDateTime() {
+        return LocalDate.now();
     }
 
 }
