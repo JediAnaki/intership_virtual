@@ -12,7 +12,7 @@ import org.javaguru.travel.insurance.dto.ValidationError;
 import org.javaguru.travel.insurance.dto.util.BigDecimalSerializer;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -22,14 +22,12 @@ import java.util.List;
 public class TravelCalculatePremiumResponseV2 extends CoreResponse {
 
     @JsonFormat(pattern="yyyy-MM-dd")
-    private Date agreementDateFrom;
+    private LocalDate agreementDateFrom;
 
     @JsonFormat(pattern="yyyy-MM-dd")
-    private Date agreementDateTo;
+    private LocalDate agreementDateTo;
 
     private String country;
-
-    private String medicalRiskLimitLevel;
 
     @JsonSerialize(using = BigDecimalSerializer.class)
     private BigDecimal agreementPremium;

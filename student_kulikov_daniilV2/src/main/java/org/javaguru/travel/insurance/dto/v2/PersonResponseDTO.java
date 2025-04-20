@@ -12,7 +12,7 @@ import org.javaguru.travel.insurance.dto.util.BigDecimalSerializer;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -26,7 +26,9 @@ public class PersonResponseDTO {
 
     @JsonFormat(pattern="yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date personBirthDate;
+    private LocalDate personBirthDate;
+
+    private String medicalRiskLimitLevel;
 
     @JsonSerialize(using = BigDecimalSerializer.class)
     private BigDecimal personPremium;

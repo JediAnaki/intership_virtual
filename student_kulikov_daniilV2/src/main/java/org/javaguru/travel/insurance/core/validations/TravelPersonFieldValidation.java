@@ -1,5 +1,6 @@
 package org.javaguru.travel.insurance.core.validations;
 
+import org.javaguru.travel.insurance.core.api.dto.AgreementDTO;
 import org.javaguru.travel.insurance.core.api.dto.PersonDTO;
 import org.javaguru.travel.insurance.core.api.dto.ValidationErrorDTO;
 
@@ -8,8 +9,8 @@ import java.util.Optional;
 
 public interface TravelPersonFieldValidation {
 
-    Optional<ValidationErrorDTO> validate(PersonDTO person);
+    Optional<ValidationErrorDTO> validate(AgreementDTO agreement, PersonDTO person);
 
-    List<ValidationErrorDTO> validateList(PersonDTO person);
+    List<ValidationErrorDTO> validateList(AgreementDTO agreement, PersonDTO person);
 
 }
