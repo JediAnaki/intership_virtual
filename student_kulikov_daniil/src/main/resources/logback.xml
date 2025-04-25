@@ -47,10 +47,10 @@
         <appender-ref ref="FILE_APPENDER" />
     </root>
 
-    <logger name="org.javaguru.travel.insurance.rest.v1.TravelCalculatePremiumRequestLoggerV1" level="INFO">
+    <logger name="v1.rest.org.jedianakin.travel.insurance.TravelCalculatePremiumRequestLoggerV1" level="INFO">
         <appender-ref ref="REQUEST_RESPONSE_FILE_APPENDER" />
     </logger>
-    <logger name="org.javaguru.travel.insurance.rest.v1.TravelCalculatePremiumResponseLoggerV1" level="INFO">
+    <logger name="v1.rest.org.jedianakin.travel.insurance.TravelCalculatePremiumResponseLoggerV1" level="INFO">
         <appender-ref ref="REQUEST_RESPONSE_FILE_APPENDER" />
     </logger>
 
