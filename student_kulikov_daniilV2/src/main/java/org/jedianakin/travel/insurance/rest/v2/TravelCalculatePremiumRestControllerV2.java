@@ -7,7 +7,7 @@ import org.jedianakin.travel.insurance.core.services.TravelCalculatePremiumServi
 import org.jedianakin.travel.insurance.dto.v2.DtoV2Converter;
 import org.jedianakin.travel.insurance.dto.v2.TravelCalculatePremiumRequestV2;
 import org.jedianakin.travel.insurance.dto.v2.TravelCalculatePremiumResponseV2;
-import org.jedianakin.travel.insurance.rest.common.TravelCalculatePremiumRequestExecutionTimeLogger;
+import org.jedianakin.travel.insurance.rest.common.TravelRestRequestExecutionTimeLogger;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,13 +19,13 @@ public class TravelCalculatePremiumRestControllerV2 {
 
 	private final TravelCalculatePremiumRequestLoggerV2 requestLogger;
 	private final TravelCalculatePremiumResponseLoggerV2 responseLogger;
-	private final TravelCalculatePremiumRequestExecutionTimeLogger executionTimeLogger;
+	private final TravelRestRequestExecutionTimeLogger executionTimeLogger;
 	private final TravelCalculatePremiumService calculatePremiumService;
 	private final DtoV2Converter dtoV2Converter;
 
 	TravelCalculatePremiumRestControllerV2(TravelCalculatePremiumRequestLoggerV2 requestLogger, 
 										   TravelCalculatePremiumResponseLoggerV2 responseLogger, 
-										   TravelCalculatePremiumRequestExecutionTimeLogger executionTimeLogger, 
+										   TravelRestRequestExecutionTimeLogger executionTimeLogger,
 										   TravelCalculatePremiumService calculatePremiumService, 
 										   DtoV2Converter dtoV2Converter) {
 		this.requestLogger = requestLogger;

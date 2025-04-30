@@ -6,13 +6,16 @@ import org.jedianakin.travel.insurance.core.api.command.TravelCalculatePremiumCo
 import org.jedianakin.travel.insurance.core.api.command.TravelCalculatePremiumCoreResult;
 import org.jedianakin.travel.insurance.core.api.dto.AgreementDTO;
 import org.jedianakin.travel.insurance.core.api.dto.ValidationErrorDTO;
+import org.jedianakin.travel.insurance.core.domain.entities.AgreementEntity;
 import org.jedianakin.travel.insurance.core.validations.TravelAgreementValidator;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+@Transactional
 class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService {
 
     private final TravelAgreementValidator agreementValidator;
@@ -25,7 +28,8 @@ class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService
         List<ValidationErrorDTO> errors = agreementValidator.validate(command.getAgreement());
         if (errors.isEmpty()) {
             calculatePremium(command.getAgreement());
-            agreementEntityFactory.createAgreementEntity(command.getAgreement());
+            AgreementEntity agreement = agreementEntityFactory.createAgreementEntity(command.getAgreement());
+            command.getAgreement().setUuid(agreement.getUuid());
             return buildResponse(command.getAgreement());
         } else {
             return buildResponse(errors);

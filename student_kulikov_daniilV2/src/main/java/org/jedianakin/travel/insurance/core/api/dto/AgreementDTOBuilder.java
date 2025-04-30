@@ -7,6 +7,7 @@ import java.util.List;
 
 public class AgreementDTOBuilder {
 
+    private String uuid;
     private LocalDate agreementDateFrom;
     private LocalDate agreementDateTo;
     private String country;
@@ -20,6 +21,7 @@ public class AgreementDTOBuilder {
 
     public AgreementDTO build() {
         AgreementDTO agreementDTO = new AgreementDTO();
+        agreementDTO.setUuid(uuid);
         agreementDTO.setAgreementDateFrom(agreementDateFrom);
         agreementDTO.setAgreementDateTo(agreementDateTo);
         agreementDTO.setCountry(country);
@@ -29,6 +31,10 @@ public class AgreementDTOBuilder {
         return agreementDTO;
     }
 
+    public AgreementDTOBuilder withUUID(String uuid) {
+        this.uuid = uuid;
+        return this;
+    }
     public AgreementDTOBuilder withDateFrom(LocalDate agreementDateFrom) {
         this.agreementDateFrom = agreementDateFrom;
         return this;

@@ -1,4 +1,4 @@
-package org.jedianakin.travel.insurance.dto.v2;
+package org.jedianakin.travel.insurance.dto.internal;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -11,6 +11,7 @@ import lombok.Setter;
 import org.jedianakin.travel.insurance.dto.CoreResponse;
 import org.jedianakin.travel.insurance.dto.ValidationError;
 import org.jedianakin.travel.insurance.dto.util.BigDecimalSerializer;
+import org.jedianakin.travel.insurance.dto.v2.PersonResponseDTO;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -21,10 +22,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TravelCalculatePremiumResponseV2 extends CoreResponse {
+public class TravelGetAgreementResponse extends CoreResponse {
 
     private String uuid;
-
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate agreementDateFrom;
 
@@ -39,7 +39,7 @@ public class TravelCalculatePremiumResponseV2 extends CoreResponse {
     @JsonAlias("persons")
     private List<PersonResponseDTO> persons;
 
-    public TravelCalculatePremiumResponseV2(List<ValidationError> errors) {
+    public TravelGetAgreementResponse(List<ValidationError> errors) {
         super(errors);
     }
 

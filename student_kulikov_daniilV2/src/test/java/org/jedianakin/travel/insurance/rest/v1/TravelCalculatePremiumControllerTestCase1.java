@@ -6,7 +6,7 @@ public class TravelCalculatePremiumControllerTestCase1 extends TravelCalculatePr
 
     @Test
     public void execute() throws Exception {
-        executeAndCompare();
+        executeAndCompare(true);
     }
 
     @Override

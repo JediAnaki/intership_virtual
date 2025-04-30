@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.checkerframework.checker.units.qual.C;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -36,6 +37,9 @@ public class AgreementEntity {
 
     @Column(name = "country", nullable = false)
     private String country;
+
+    @Column(name = "uuid", nullable = false)
+    private String uuid;
 
     @Column(name = "premium", nullable = false)
     private BigDecimal agreementPremium;
