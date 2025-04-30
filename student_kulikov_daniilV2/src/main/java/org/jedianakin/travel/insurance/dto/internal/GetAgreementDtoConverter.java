@@ -1,6 +1,6 @@
-package org.jedianakin.travel.insurance.dto.v2;
+package org.jedianakin.travel.insurance.dto.internal;
 
-import org.jedianakin.travel.insurance.core.api.command.TravelCalculatePremiumCoreCommand;
+import org.jedianakin.travel.insurance.core.api.command.TravelGetAgreementCoreCommand;
 import org.jedianakin.travel.insurance.core.api.command.TravelGetAgreementCoreResult;
 import org.jedianakin.travel.insurance.core.api.dto.AgreementDTO;
 import org.jedianakin.travel.insurance.core.api.dto.PersonDTO;
@@ -8,6 +8,7 @@ import org.jedianakin.travel.insurance.core.api.dto.RiskDTO;
 import org.jedianakin.travel.insurance.core.api.dto.ValidationErrorDTO;
 import org.jedianakin.travel.insurance.dto.RiskPremium;
 import org.jedianakin.travel.insurance.dto.ValidationError;
+import org.jedianakin.travel.insurance.dto.v2.PersonResponseDTO;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -15,33 +16,32 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class DtoV2Converter {
+public class GetAgreementDtoConverter {
 
-    public TravelCalculatePremiumCoreCommand buildCoreCommand(TravelCalculatePremiumRequestV2 request) {
-        AgreementDTO agreement = buildAgreement(request);
-        return new TravelCalculatePremiumCoreCommand(agreement);
+    public TravelGetAgreementCoreCommand buildCoreCommand(String uuid) {
+        return new TravelGetAgreementCoreCommand(uuid);
     }
 
-    public TravelCalculatePremiumResponseV2 buildResponse(TravelGetAgreementCoreResult coreResult) {
+    public TravelGetAgreementResponse buildResponse(TravelGetAgreementCoreResult coreResult) {
         return coreResult.hasErrors()
                 ? buildResponseWithErrors(coreResult.getErrors())
                 : buildSuccessfulResponse(coreResult);
     }
 
-    private TravelCalculatePremiumResponseV2 buildResponseWithErrors(List<ValidationErrorDTO> coreErrors) {
-        List<ValidationError> errors = transformValidationErrorsToV2(coreErrors);
-        return new TravelCalculatePremiumResponseV2(errors);
+    private TravelGetAgreementResponse buildResponseWithErrors(List<ValidationErrorDTO> coreErrors) {
+        List<ValidationError> errors = transformValidationErrors(coreErrors);
+        return new TravelGetAgreementResponse(errors);
     }
 
-    private List<ValidationError> transformValidationErrorsToV2(List<ValidationErrorDTO> coreErrors) {
+    private List<ValidationError> transformValidationErrors(List<ValidationErrorDTO> coreErrors) {
         return coreErrors.stream()
                 .map(error -> new ValidationError(error.getErrorCode(), error.getDescription()))
                 .collect(Collectors.toList());
     }
 
-    private TravelCalculatePremiumResponseV2 buildSuccessfulResponse(TravelGetAgreementCoreResult coreResult) {
+    private TravelGetAgreementResponse buildSuccessfulResponse(TravelGetAgreementCoreResult coreResult) {
         AgreementDTO agreement = coreResult.getAgreement();
-        TravelCalculatePremiumResponseV2 response = new TravelCalculatePremiumResponseV2();
+        TravelGetAgreementResponse response = new TravelGetAgreementResponse();
         response.setUuid(agreement.getUuid());
         response.setAgreementDateFrom(agreement.getAgreementDateFrom());
         response.setAgreementDateTo(agreement.getAgreementDateTo());
@@ -74,38 +74,6 @@ public class DtoV2Converter {
                 .collect(Collectors.toList()));
 
         return person;
-    }
-
-    private PersonDTO buildPersonFromRequest(PersonRequestDTO personRequestDTO) {
-        PersonDTO person = new PersonDTO();
-        person.setPersonFirstName(personRequestDTO.getPersonFirstName());
-        person.setPersonLastName(personRequestDTO.getPersonLastName());
-        person.setPersonCode(personRequestDTO.getPersonCode());
-        person.setPersonBirthDate(personRequestDTO.getPersonBirthDate());
-        person.setMedicalRiskLimitLevel(personRequestDTO.getMedicalRiskLimitLevel());
-        return person;
-    }
-
-    private AgreementDTO buildAgreement(TravelCalculatePremiumRequestV2 request) {
-        AgreementDTO agreement = new AgreementDTO();
-        agreement.setAgreementDateFrom(request.getAgreementDateFrom());
-        agreement.setAgreementDateTo(request.getAgreementDateTo());
-        agreement.setCountry(request.getCountry());
-        agreement.setSelectedRisks(request.getSelectedRisks());
-
-        agreement.setPersons(buildPersonDTOFromRequest(request));
-
-        return agreement;
-    }
-
-    private List<PersonDTO> buildPersonDTOFromRequest(TravelCalculatePremiumRequestV2 request) {
-        if (request.getPersons() == null) {
-            return List.of();
-        } else {
-            return request.getPersons().stream()
-                    .map(this::buildPersonFromRequest)
-                    .collect(Collectors.toList());
-        }
     }
 
 }

@@ -3,7 +3,7 @@ package org.jedianakin.travel.insurance.core.services;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.jedianakin.travel.insurance.core.api.command.TravelCalculatePremiumCoreCommand;
-import org.jedianakin.travel.insurance.core.api.command.TravelCalculatePremiumCoreResult;
+import org.jedianakin.travel.insurance.core.api.command.TravelGetAgreementCoreResult;
 import org.jedianakin.travel.insurance.core.api.dto.AgreementDTO;
 import org.jedianakin.travel.insurance.core.api.dto.ValidationErrorDTO;
 import org.jedianakin.travel.insurance.core.domain.entities.AgreementEntity;
@@ -24,7 +24,7 @@ class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService
     private final AgreementEntityFactory agreementEntityFactory;
 
     @Override
-    public TravelCalculatePremiumCoreResult calculatePremium(TravelCalculatePremiumCoreCommand command) {
+    public TravelGetAgreementCoreResult calculatePremium(TravelCalculatePremiumCoreCommand command) {
         List<ValidationErrorDTO> errors = agreementValidator.validate(command.getAgreement());
         if (errors.isEmpty()) {
             calculatePremium(command.getAgreement());
@@ -41,12 +41,12 @@ class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService
         agreement.setAgreementPremium(agreementTotalPremiumCalculator.calculate(agreement));
     }
 
-    private TravelCalculatePremiumCoreResult buildResponse(List<ValidationErrorDTO> errors) {
-        return new TravelCalculatePremiumCoreResult(errors);
+    private TravelGetAgreementCoreResult buildResponse(List<ValidationErrorDTO> errors) {
+        return new TravelGetAgreementCoreResult(errors);
     }
 
-    private TravelCalculatePremiumCoreResult buildResponse(AgreementDTO agreement) {
-        return new TravelCalculatePremiumCoreResult(null, agreement);
+    private TravelGetAgreementCoreResult buildResponse(AgreementDTO agreement) {
+        return new TravelGetAgreementCoreResult(null, agreement);
     }
 
 }

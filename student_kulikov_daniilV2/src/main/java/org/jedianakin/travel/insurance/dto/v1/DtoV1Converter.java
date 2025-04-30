@@ -1,7 +1,7 @@
 package org.jedianakin.travel.insurance.dto.v1;
 
 import org.jedianakin.travel.insurance.core.api.command.TravelCalculatePremiumCoreCommand;
-import org.jedianakin.travel.insurance.core.api.command.TravelCalculatePremiumCoreResult;
+import org.jedianakin.travel.insurance.core.api.command.TravelGetAgreementCoreResult;
 import org.jedianakin.travel.insurance.core.api.dto.AgreementDTO;
 import org.jedianakin.travel.insurance.core.api.dto.PersonDTO;
 import org.jedianakin.travel.insurance.core.api.dto.ValidationErrorDTO;
@@ -20,7 +20,7 @@ public class DtoV1Converter {
         return new TravelCalculatePremiumCoreCommand(agreement);
     }
 
-    public TravelCalculatePremiumResponseV1 buildResponse(TravelCalculatePremiumCoreResult coreResult) {
+    public TravelCalculatePremiumResponseV1 buildResponse(TravelGetAgreementCoreResult coreResult) {
         return coreResult.hasErrors()
                 ? buildResponseWithErrors(coreResult.getErrors())
                 : buildSuccessfulResponse(coreResult);
@@ -37,21 +37,21 @@ public class DtoV1Converter {
                 .collect(Collectors.toList());
     }
 
-    private TravelCalculatePremiumResponseV1 buildSuccessfulResponse(TravelCalculatePremiumCoreResult coreResult) {
+    private TravelCalculatePremiumResponseV1 buildSuccessfulResponse(TravelGetAgreementCoreResult coreResult) {
         AgreementDTO agreement = coreResult.getAgreement();
         TravelCalculatePremiumResponseV1 response = new TravelCalculatePremiumResponseV1();
         response.setUuid(agreement.getUuid());
-        response.setPersonFirstName(agreement.getPersons().get(0).getPersonFirstName());
-        response.setPersonLastName(agreement.getPersons().get(0).getPersonLastName());
-        response.setPersonCode(agreement.getPersons().get(0).getPersonCode());
-        response.setPersonBirthDate(agreement.getPersons().get(0).getPersonBirthDate());
+        response.setPersonFirstName(agreement.getPersons().getFirst().getPersonFirstName());
+        response.setPersonLastName(agreement.getPersons().getFirst().getPersonLastName());
+        response.setPersonCode(agreement.getPersons().getFirst().getPersonCode());
+        response.setPersonBirthDate(agreement.getPersons().getFirst().getPersonBirthDate());
         response.setAgreementDateFrom(agreement.getAgreementDateFrom());
         response.setAgreementDateTo(agreement.getAgreementDateTo());
         response.setCountry(agreement.getCountry());
-        response.setMedicalRiskLimitLevel(agreement.getPersons().get(0).getMedicalRiskLimitLevel());
+        response.setMedicalRiskLimitLevel(agreement.getPersons().getFirst().getMedicalRiskLimitLevel());
         response.setAgreementPremium(agreement.getAgreementPremium());
 
-        PersonDTO person = agreement.getPersons().get(0);
+        PersonDTO person = agreement.getPersons().getFirst();
         List<RiskPremium> riskPremiums = person.getRisks().stream()
                 .map(riskDTO -> new RiskPremium(riskDTO.getRiskIc(), riskDTO.getPremium()))
                 .toList();

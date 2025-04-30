@@ -1,7 +1,7 @@
 package org.jedianakin.travel.insurance.web.v1;
 
 import org.jedianakin.travel.insurance.core.api.command.TravelCalculatePremiumCoreCommand;
-import org.jedianakin.travel.insurance.core.api.command.TravelCalculatePremiumCoreResult;
+import org.jedianakin.travel.insurance.core.api.command.TravelGetAgreementCoreResult;
 import org.jedianakin.travel.insurance.core.services.TravelCalculatePremiumService;
 import org.jedianakin.travel.insurance.dto.v1.DtoV1Converter;
 import org.jedianakin.travel.insurance.dto.v1.TravelCalculatePremiumRequestV1;
@@ -35,7 +35,7 @@ public class TravelInsuranceControllerV1 {
     public String processForm(@ModelAttribute(value = "request") TravelCalculatePremiumRequestV1 request,
                               ModelMap modelMap) {
         TravelCalculatePremiumCoreCommand coreCommand = dtoV1Converter.buildCoreCommand(request);
-        TravelCalculatePremiumCoreResult coreResult = service.calculatePremium(coreCommand);
+        TravelGetAgreementCoreResult coreResult = service.calculatePremium(coreCommand);
         TravelCalculatePremiumResponseV1 response = dtoV1Converter.buildResponse(coreResult);
         modelMap.addAttribute("response", response);
         return "travel-calculate-premium-v1";
