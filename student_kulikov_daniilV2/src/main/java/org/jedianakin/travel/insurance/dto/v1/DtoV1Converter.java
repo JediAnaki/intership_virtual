@@ -49,6 +49,7 @@ public class DtoV1Converter {
         response.setAgreementDateTo(agreement.getAgreementDateTo());
         response.setCountry(agreement.getCountry());
         response.setMedicalRiskLimitLevel(agreement.getPersons().getFirst().getMedicalRiskLimitLevel());
+        response.setTravelCost(agreement.getPersons().get(0).getTravelCost());
         response.setAgreementPremium(agreement.getAgreementPremium());
 
         PersonDTO person = agreement.getPersons().getFirst();

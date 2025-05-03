@@ -14,17 +14,17 @@ import java.math.RoundingMode;
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class TravelMedicalRiskPremiumCalculator implements TravelRiskPremiumCalculator {
 
-    private final DayCountCalculator dayCountCalculator;
-    private final CountryDefaultDayRateCalculator countryDefaultDayRateCalculator;
-    private final AgeCoefficientCalculator ageCoefficientCalculator;
-    private final RiskLimitLevelCalculator riskLimitLevelCalculator;
+    private final TMDayCountCalculator TMDayCountCalculator;
+    private final TMCountryDefaultDayRateCalculator TMCountryDefaultDayRateCalculator;
+    private final TMAgeCoefficientCalculator TMAgeCoefficientCalculator;
+    private final TMRiskLimitLevelCalculator TMRiskLimitLevelCalculator;
 
     @Override
     public BigDecimal calculatePremium(AgreementDTO agreement, PersonDTO person) {
-        var daysCount = dayCountCalculator.calculate(agreement);
-        var countryDefaultRate = countryDefaultDayRateCalculator.calculate(agreement);
-        var ageCoefficient = ageCoefficientCalculator.calculate(person);
-        var riskLimitLevel = riskLimitLevelCalculator.calculate(person);
+        var daysCount = TMDayCountCalculator.calculate(agreement);
+        var countryDefaultRate = TMCountryDefaultDayRateCalculator.calculate(agreement);
+        var ageCoefficient = TMAgeCoefficientCalculator.calculate(person);
+        var riskLimitLevel = TMRiskLimitLevelCalculator.calculate(person);
         return countryDefaultRate
                 .multiply(daysCount)
                 .multiply(ageCoefficient)

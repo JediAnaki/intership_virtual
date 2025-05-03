@@ -41,6 +41,9 @@ public class TravelCalculatePremiumResponseV1 extends CoreResponse {
     private String medicalRiskLimitLevel;
 
     @JsonSerialize(using = BigDecimalSerializer.class)
+    private BigDecimal travelCost;
+
+    @JsonSerialize(using = BigDecimalSerializer.class)
     private BigDecimal agreementPremium;
 
     private List<RiskPremium> risks;

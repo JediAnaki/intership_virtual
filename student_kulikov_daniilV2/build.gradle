@@ -78,4 +78,11 @@ publishing {
 	repositories {
 		mavenLocal()
 	}
+
+	clean {
+		delete fileTree(dir: 'logs')
+		doLast {
+			println "Deleted logs directory"
+		}
+	}
 }

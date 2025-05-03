@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -25,4 +26,5 @@ public class PersonRequestDTO {
 
     private String medicalRiskLimitLevel;
 
+    private BigDecimal travelCost;
 }
