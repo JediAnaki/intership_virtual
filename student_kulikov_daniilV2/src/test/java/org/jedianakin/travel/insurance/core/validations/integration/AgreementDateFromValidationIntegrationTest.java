@@ -1,6 +1,7 @@
 package org.jedianakin.travel.insurance.core.validations.integration;
 
 import org.jedianakin.travel.insurance.core.api.dto.AgreementDTO;
+import org.jedianakin.travel.insurance.core.api.dto.PersonDTO;
 import org.jedianakin.travel.insurance.core.api.dto.ValidationErrorDTO;
 import org.jedianakin.travel.insurance.core.validations.TravelAgreementValidator;
 import org.junit.jupiter.api.Test;
@@ -13,8 +14,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.jedianakin.travel.insurance.core.api.dto.AgreementDTOBuilder.createAgreement;
-import static org.jedianakin.travel.insurance.core.api.dto.PersonDTOBuilder.createPersonDTO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
@@ -26,17 +25,18 @@ public class AgreementDateFromValidationIntegrationTest {
 
     @Test
     public void shouldReturnErrorWhenDateFromIsNull() {
-        AgreementDTO agreement = createAgreement()
-                .withDateFrom(null)
-                .withDateTo(LocalDate.of(2030, 1, 1))
-                .withCountry("SPAIN")
-                .withSelectedRisk("TRAVEL_MEDICAL")
-                .withPerson(createPersonDTO()
-                        .withFirstName("Vasja")
-                        .withLastName("Pupkin")
-                        .withPersonCode("123456-12345")
-                        .withBirthDate(LocalDate.of(2000, 1, 1))
-                        .withMedicalRiskLimitLevel("LEVEL_10000")
+        AgreementDTO agreement = AgreementDTO.builder()
+                .agreementDateFrom(null)
+                .agreementDateTo(LocalDate.of(2030, 1, 1))
+                .country("SPAIN")
+                .selectedRisks(List.of("TRAVEL_MEDICAL"))
+                .persons(List.of(PersonDTO.builder()
+                        .personFirstName("Vasja")
+                        .personLastName("Pupkin")
+                        .personCode("123456-12345")
+                        .personBirthDate(LocalDate.of(2020, 1, 1))
+                        .medicalRiskLimitLevel("LEVEL_10000")
+                        .build())
                 ).build();
         List<ValidationErrorDTO> errors = validator.validate(agreement);
         assertEquals(1, errors.size());
@@ -46,17 +46,18 @@ public class AgreementDateFromValidationIntegrationTest {
 
     @Test
     public void shouldReturnErrorWhenDateFromIsInThePast() {
-        AgreementDTO agreement = createAgreement()
-                .withDateFrom(LocalDate.of(2020, 1, 1))
-                .withDateTo(LocalDate.of(2030, 1, 1))
-                .withCountry("SPAIN")
-                .withSelectedRisk("TRAVEL_MEDICAL")
-                .withPerson(createPersonDTO()
-                        .withFirstName("Vasja")
-                        .withLastName("Pupkin")
-                        .withPersonCode("123456-12345")
-                        .withBirthDate(LocalDate.of(2000, 1, 1))
-                        .withMedicalRiskLimitLevel("LEVEL_10000")
+        AgreementDTO agreement = AgreementDTO.builder()
+                .agreementDateFrom(LocalDate.of(2020, 1, 1))
+                .agreementDateTo(LocalDate.of(2030, 1, 1))
+                .country("SPAIN")
+                .selectedRisks(List.of("TRAVEL_MEDICAL"))
+                .persons(List.of(PersonDTO.builder()
+                        .personFirstName("Vasja")
+                        .personLastName("Pupkin")
+                        .personCode("123456-12345")
+                        .personBirthDate(LocalDate.of(2000, 1, 1))
+                        .medicalRiskLimitLevel("LEVEL_10000")
+                        .build())
                 ).build();
         List<ValidationErrorDTO> errors = validator.validate(agreement);
         assertEquals(1, errors.size());

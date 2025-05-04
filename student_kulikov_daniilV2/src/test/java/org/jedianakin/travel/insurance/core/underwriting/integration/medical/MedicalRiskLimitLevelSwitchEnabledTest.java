@@ -16,9 +16,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
-import static org.jedianakin.travel.insurance.core.api.dto.AgreementDTOBuilder.createAgreement;
-import static org.jedianakin.travel.insurance.core.api.dto.PersonDTOBuilder.createPersonDTO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Disabled
@@ -34,19 +33,19 @@ public class MedicalRiskLimitLevelSwitchEnabledTest {
 
     @Test
     public void shouldBeEnabledMedicalRiskLimitLevel() {
-        PersonDTO person = createPersonDTO()
-                .withFirstName("Vasja")
-                .withLastName("Pupkin")
-                .withBirthDate(LocalDate.of(2000, 1, 1))
-                .withMedicalRiskLimitLevel("LEVEL_20000")
+        PersonDTO person = PersonDTO.builder()
+                .personFirstName("Vasja")
+                .personLastName("Pupkin")
+                .personBirthDate(LocalDate.of(2000, 1, 1))
+                .medicalRiskLimitLevel("LEVEL_20000")
                 .build();
 
-        AgreementDTO agreement = createAgreement()
-                .withDateFrom(LocalDate.of(2030, 1, 1))
-                .withDateTo(LocalDate.of(2030, 5, 1))
-                .withCountry("SPAIN")
-                .withSelectedRisk("TRAVEL_MEDICAL")
-                .withPerson(person)
+        AgreementDTO agreement = AgreementDTO.builder()
+                .agreementDateFrom(LocalDate.of(2030, 1, 1))
+                .agreementDateTo(LocalDate.of(2030, 5, 1))
+                .country("SPAIN")
+                .selectedRisks(List.of("TRAVEL_MEDICAL"))
+                .persons(List.of(person))
                 .build();
 
         TravelPremiumCalculationResult result = premiumUnderwriting.calculatePremium(agreement, person);
