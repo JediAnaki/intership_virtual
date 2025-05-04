@@ -51,6 +51,6 @@ public class TMAgeCoefficientSwitchDisabledIntegrationTest {
 
         TravelPremiumCalculationResult result = premiumUnderwriting.calculatePremium(agreement, person);
 
-        assertEquals(result.totalPremium(), new BigDecimal("446.25"));
+        assertEquals(new BigDecimal("446.25"), result.totalPremium());
     }
 }

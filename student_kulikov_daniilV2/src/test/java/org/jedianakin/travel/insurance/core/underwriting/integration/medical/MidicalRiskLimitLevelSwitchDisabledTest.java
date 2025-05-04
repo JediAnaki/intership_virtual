@@ -49,6 +49,6 @@ public class MidicalRiskLimitLevelSwitchDisabledTest {
 
         TravelPremiumCalculationResult result = premiumUnderwriting.calculatePremium(agreement, person);
 
-        assertEquals(result.totalPremium(), new BigDecimal("327.25"));
+        assertEquals(new BigDecimal("327.25"), result.totalPremium());
     }
 }
