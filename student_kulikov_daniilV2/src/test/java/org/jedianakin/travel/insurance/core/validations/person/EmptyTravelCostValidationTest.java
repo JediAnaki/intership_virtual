@@ -58,4 +58,5 @@ class EmptyTravelCostValidationTest {
         Optional<ValidationErrorDTO> result = validation.validate(agreement, person);
         assertTrue(result.isEmpty());
     }
+
 }

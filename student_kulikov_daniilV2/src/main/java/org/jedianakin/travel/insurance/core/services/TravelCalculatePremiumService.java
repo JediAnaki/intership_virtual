@@ -1,10 +1,10 @@
 package org.jedianakin.travel.insurance.core.services;
 
 import org.jedianakin.travel.insurance.core.api.command.TravelCalculatePremiumCoreCommand;
-import org.jedianakin.travel.insurance.core.api.command.TravelGetAgreementCoreResult;
+import org.jedianakin.travel.insurance.core.api.command.TravelCalculatePremiumCoreResult;
 
 public interface TravelCalculatePremiumService {
 
-    TravelGetAgreementCoreResult calculatePremium(TravelCalculatePremiumCoreCommand command);
+    TravelCalculatePremiumCoreResult calculatePremium(TravelCalculatePremiumCoreCommand command);
 
 }

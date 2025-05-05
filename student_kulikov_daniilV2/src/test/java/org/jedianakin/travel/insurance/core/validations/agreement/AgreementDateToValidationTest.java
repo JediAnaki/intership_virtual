@@ -9,14 +9,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyNoInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class AgreementDateToValidationTest {
@@ -40,7 +41,7 @@ class AgreementDateToValidationTest {
     @Test
     public void shouldNotReturnErrorWhenAgreementDateToIsPresent() {
         AgreementDTO agreement = mock(AgreementDTO.class);
-        when(agreement.getAgreementDateTo()).thenReturn(LocalDate.of(2025, 1, 1));
+        when(agreement.getAgreementDateTo()).thenReturn(LocalDate.of(2025,1,1));
         Optional<ValidationErrorDTO> errorOpt = validation.validate(agreement);
         assertTrue(errorOpt.isEmpty());
         verifyNoInteractions(errorFactory);

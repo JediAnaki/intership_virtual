@@ -6,7 +6,6 @@ import java.util.List;
 class RestCallExample {
 
     public static void main(String[] args) {
-
         LoadTestingStatistic statisticV1 = new LoadTestingStatistic();
         LoadTestingStatistic statisticV2 = new LoadTestingStatistic();
 

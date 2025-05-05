@@ -18,10 +18,10 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class TravelMedicalRiskPremiumCalculatorTest {
 
-    @Mock private TMDayCountCalculator TMDayCountCalculator;
-    @Mock private TMCountryDefaultDayRateCalculator TMCountryDefaultDayRateCalculator;
-    @Mock private TMAgeCoefficientCalculator TMAgeCoefficientCalculator;
-    @Mock private TMRiskLimitLevelCalculator TMRiskLimitLevelCalculator;
+    @Mock private TMDayCountCalculator dayCountCalculator;
+    @Mock private TMCountryDefaultDayRateCalculator countryDefaultDayRateCalculator;
+    @Mock private TMAgeCoefficientCalculator ageCoefficientCalculator;
+    @Mock private TMRiskLimitLevelCalculator riskLimitLevelCalculator;
 
     @InjectMocks
     private TravelMedicalRiskPremiumCalculator calculator;
@@ -42,10 +42,10 @@ class TravelMedicalRiskPremiumCalculatorTest {
         BigDecimal ageCoefficient = BigDecimal.valueOf(1.2);
         BigDecimal riskLimitLevelCoefficient = BigDecimal.valueOf(1.0);
 
-        when(TMDayCountCalculator.calculate(agreement)).thenReturn(daysCount);
-        when(TMCountryDefaultDayRateCalculator.calculate(agreement)).thenReturn(countryDefaultRate);
-        when(TMAgeCoefficientCalculator.calculate(person)).thenReturn(ageCoefficient);
-        when(TMRiskLimitLevelCalculator.calculate(person)).thenReturn(riskLimitLevelCoefficient);
+        when(dayCountCalculator.calculate(agreement)).thenReturn(daysCount);
+        when(countryDefaultDayRateCalculator.calculate(agreement)).thenReturn(countryDefaultRate);
+        when(ageCoefficientCalculator.calculate(person)).thenReturn(ageCoefficient);
+        when(riskLimitLevelCalculator.calculate(person)).thenReturn(riskLimitLevelCoefficient);
 
         BigDecimal expectedPremium = countryDefaultRate.multiply(daysCount).multiply(ageCoefficient)
                 .setScale(2, RoundingMode.HALF_UP);

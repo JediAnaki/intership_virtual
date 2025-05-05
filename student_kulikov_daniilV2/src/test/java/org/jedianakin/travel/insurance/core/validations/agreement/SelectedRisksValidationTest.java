@@ -18,9 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyNoInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class SelectedRisksValidationTest {
@@ -62,7 +60,7 @@ class SelectedRisksValidationTest {
         ValidationErrorDTO error = mock(ValidationErrorDTO.class);
         when(errorFactory.buildError(eq("ERROR_CODE_9"), anyList())).thenReturn(error);
 
-        assertEquals(validation.validateList(agreement).size(), 2);
+        assertEquals(2, validation.validateList(agreement).size());
     }
 
 }

@@ -14,9 +14,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyNoInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class DateFromLessThenDateToValidationTest {
@@ -29,8 +27,8 @@ class DateFromLessThenDateToValidationTest {
     @Test
     public void shouldReturnErrorWhenDateFromIsAfterDateTo() {
         AgreementDTO agreement = mock(AgreementDTO.class);
-        when(agreement.getAgreementDateFrom()).thenReturn(LocalDate.of(2025, 1, 10));
-        when(agreement.getAgreementDateTo()).thenReturn(LocalDate.of(2025, 1, 1));
+        when(agreement.getAgreementDateFrom()).thenReturn(LocalDate.of(2025,1,1));
+        when(agreement.getAgreementDateTo()).thenReturn(LocalDate.of(2025,1,1));
         ValidationErrorDTO validationError = mock(ValidationErrorDTO.class);
         when(errorFactory.buildError("ERROR_CODE_5")).thenReturn(validationError);
         Optional<ValidationErrorDTO> errorOpt = validation.validate(agreement);
@@ -41,8 +39,8 @@ class DateFromLessThenDateToValidationTest {
     @Test
     public void shouldReturnErrorWhenDateFromIsEqualsDateTo() {
         AgreementDTO agreement = mock(AgreementDTO.class);
-        when(agreement.getAgreementDateFrom()).thenReturn(LocalDate.of(2025, 1, 1));
-        when(agreement.getAgreementDateTo()).thenReturn(LocalDate.of(2025, 1, 1));
+        when(agreement.getAgreementDateFrom()).thenReturn(LocalDate.of(2025,1,1));
+        when(agreement.getAgreementDateTo()).thenReturn(LocalDate.of(2025,1,1));
         ValidationErrorDTO validationError = mock(ValidationErrorDTO.class);
         when(errorFactory.buildError("ERROR_CODE_5")).thenReturn(validationError);
         Optional<ValidationErrorDTO> errorOpt = validation.validate(agreement);
@@ -53,10 +51,11 @@ class DateFromLessThenDateToValidationTest {
     @Test
     public void shouldNotReturnErrorWhenDateFromIsLessDateTo() {
         AgreementDTO agreement = mock(AgreementDTO.class);
-        when(agreement.getAgreementDateFrom()).thenReturn(LocalDate.of(2025, 1, 1));
-        when(agreement.getAgreementDateTo()).thenReturn(LocalDate.of(2025, 1, 10));
+        when(agreement.getAgreementDateFrom()).thenReturn(LocalDate.of(2025,1,1));
+        when(agreement.getAgreementDateTo()).thenReturn(LocalDate.of(2025,1,10));
         Optional<ValidationErrorDTO> errorOpt = validation.validate(agreement);
         assertTrue(errorOpt.isEmpty());
         verifyNoInteractions(errorFactory);
     }
+
 }

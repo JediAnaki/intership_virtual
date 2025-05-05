@@ -1,7 +1,7 @@
 package org.jedianakin.travel.insurance.dto.v2;
 
 import org.jedianakin.travel.insurance.core.api.command.TravelCalculatePremiumCoreCommand;
-import org.jedianakin.travel.insurance.core.api.command.TravelGetAgreementCoreResult;
+import org.jedianakin.travel.insurance.core.api.command.TravelCalculatePremiumCoreResult;
 import org.jedianakin.travel.insurance.core.api.dto.AgreementDTO;
 import org.jedianakin.travel.insurance.core.api.dto.PersonDTO;
 import org.jedianakin.travel.insurance.core.api.dto.RiskDTO;
@@ -22,7 +22,7 @@ public class DtoV2Converter {
         return new TravelCalculatePremiumCoreCommand(agreement);
     }
 
-    public TravelCalculatePremiumResponseV2 buildResponse(TravelGetAgreementCoreResult coreResult) {
+    public TravelCalculatePremiumResponseV2 buildResponse(TravelCalculatePremiumCoreResult coreResult) {
         return coreResult.hasErrors()
                 ? buildResponseWithErrors(coreResult.getErrors())
                 : buildSuccessfulResponse(coreResult);
@@ -39,7 +39,7 @@ public class DtoV2Converter {
                 .collect(Collectors.toList());
     }
 
-    private TravelCalculatePremiumResponseV2 buildSuccessfulResponse(TravelGetAgreementCoreResult coreResult) {
+    private TravelCalculatePremiumResponseV2 buildSuccessfulResponse(TravelCalculatePremiumCoreResult coreResult) {
         AgreementDTO agreement = coreResult.getAgreement();
         TravelCalculatePremiumResponseV2 response = new TravelCalculatePremiumResponseV2();
         response.setUuid(agreement.getUuid());
@@ -84,6 +84,7 @@ public class DtoV2Converter {
         person.setPersonCode(personRequestDTO.getPersonCode());
         person.setPersonBirthDate(personRequestDTO.getPersonBirthDate());
         person.setMedicalRiskLimitLevel(personRequestDTO.getMedicalRiskLimitLevel());
+        person.setTravelCost(personRequestDTO.getTravelCost());
         return person;
     }
 

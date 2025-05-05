@@ -34,7 +34,7 @@ public class TravelPremiumUnderwritingTest {
         );
         when(selectedRisksPremiumCalculator.calculatePremiumForAllRisks(agreement, person)).thenReturn(risks);
         TravelPremiumCalculationResult premiumCalculationResult = premiumUnderwriting.calculatePremium(agreement, person);
-        assertEquals(premiumCalculationResult.totalPremium(), new BigDecimal(2));
+        assertEquals(new BigDecimal(2), premiumCalculationResult.totalPremium());
     }
 
 }

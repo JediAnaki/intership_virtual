@@ -1,7 +1,7 @@
 package org.jedianakin.travel.insurance.core.services;
 
 import org.jedianakin.travel.insurance.core.api.command.TravelCalculatePremiumCoreCommand;
-import org.jedianakin.travel.insurance.core.api.command.TravelGetAgreementCoreResult;
+import org.jedianakin.travel.insurance.core.api.command.TravelCalculatePremiumCoreResult;
 import org.jedianakin.travel.insurance.core.api.dto.AgreementDTO;
 import org.jedianakin.travel.insurance.core.api.dto.PersonDTO;
 import org.jedianakin.travel.insurance.core.api.dto.ValidationErrorDTO;
@@ -18,9 +18,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class TravelCalculatePremiumServiceImplTest {
@@ -41,7 +39,7 @@ public class TravelCalculatePremiumServiceImplTest {
         var validationError = new ValidationErrorDTO("Error code", "Error description");
         when(agreementValidator.validate(agreement)).thenReturn(List.of(validationError));
 
-        TravelGetAgreementCoreResult result = premiumService.calculatePremium(command);
+        TravelCalculatePremiumCoreResult result = premiumService.calculatePremium(command);
 
         assertEquals(1, result.getErrors().size());
         assertEquals("Error code", result.getErrors().getFirst().getErrorCode());
@@ -82,8 +80,8 @@ public class TravelCalculatePremiumServiceImplTest {
         var agreementEntity = new AgreementEntity();
         when(agreementEntityFactory.createAgreementEntity(agreement)).thenReturn(agreementEntity);
         when(agreementTotalPremiumCalculator.calculate(agreement)).thenReturn(BigDecimal.ONE);
-        TravelGetAgreementCoreResult result = premiumService.calculatePremium(new TravelCalculatePremiumCoreCommand(agreement));
-        assertEquals(BigDecimal.ONE, result.getAgreement().getAgreementPremium());
+        TravelCalculatePremiumCoreResult result = premiumService.calculatePremium(new TravelCalculatePremiumCoreCommand(agreement));
+        assertEquals(result.getAgreement().getAgreementPremium(), BigDecimal.ONE);
     }
 
 }

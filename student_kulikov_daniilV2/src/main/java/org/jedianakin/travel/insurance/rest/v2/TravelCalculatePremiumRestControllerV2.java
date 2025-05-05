@@ -1,8 +1,10 @@
 package org.jedianakin.travel.insurance.rest.v2;
 
 import com.google.common.base.Stopwatch;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import org.jedianakin.travel.insurance.core.api.command.TravelCalculatePremiumCoreCommand;
-import org.jedianakin.travel.insurance.core.api.command.TravelGetAgreementCoreResult;
+import org.jedianakin.travel.insurance.core.api.command.TravelCalculatePremiumCoreResult;
 import org.jedianakin.travel.insurance.core.services.TravelCalculatePremiumService;
 import org.jedianakin.travel.insurance.dto.v2.DtoV2Converter;
 import org.jedianakin.travel.insurance.dto.v2.TravelCalculatePremiumRequestV2;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @RequestMapping("/insurance/travel/api/v2")
 public class TravelCalculatePremiumRestControllerV2 {
 
@@ -22,18 +25,6 @@ public class TravelCalculatePremiumRestControllerV2 {
 	private final TravelRestRequestExecutionTimeLogger executionTimeLogger;
 	private final TravelCalculatePremiumService calculatePremiumService;
 	private final DtoV2Converter dtoV2Converter;
-
-	TravelCalculatePremiumRestControllerV2(TravelCalculatePremiumRequestLoggerV2 requestLogger, 
-										   TravelCalculatePremiumResponseLoggerV2 responseLogger, 
-										   TravelRestRequestExecutionTimeLogger executionTimeLogger,
-										   TravelCalculatePremiumService calculatePremiumService, 
-										   DtoV2Converter dtoV2Converter) {
-		this.requestLogger = requestLogger;
-		this.responseLogger = responseLogger;
-		this.executionTimeLogger = executionTimeLogger;
-		this.calculatePremiumService = calculatePremiumService;
-		this.dtoV2Converter = dtoV2Converter;
-	}
 
 	@PostMapping(path = "/",
 			consumes = "application/json",
@@ -48,7 +39,7 @@ public class TravelCalculatePremiumRestControllerV2 {
 	private TravelCalculatePremiumResponseV2 processRequest(TravelCalculatePremiumRequestV2 request) {
 		requestLogger.log(request);
 		TravelCalculatePremiumCoreCommand coreCommand = dtoV2Converter.buildCoreCommand(request);
-		TravelGetAgreementCoreResult coreResult = calculatePremiumService.calculatePremium(coreCommand);
+		TravelCalculatePremiumCoreResult coreResult = calculatePremiumService.calculatePremium(coreCommand);
 		TravelCalculatePremiumResponseV2 response = dtoV2Converter.buildResponse(coreResult);
 		responseLogger.log(response);
 		return response;

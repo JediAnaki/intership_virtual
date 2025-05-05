@@ -20,6 +20,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class TCCountrySafetyRatingCalculatorTest {
+
     @Mock
     private TCCountrySafetyRatingCoefficientRepository countrySafetyRatingCoefficientRepository;
 
@@ -51,4 +52,5 @@ class TCCountrySafetyRatingCalculatorTest {
         RuntimeException exception = assertThrows(RuntimeException.class, () -> calculator.calculate(agreement));
         assertEquals("Country safety rating coefficient not found by country id = " + agreement.getCountry(), exception.getMessage());
     }
+
 }

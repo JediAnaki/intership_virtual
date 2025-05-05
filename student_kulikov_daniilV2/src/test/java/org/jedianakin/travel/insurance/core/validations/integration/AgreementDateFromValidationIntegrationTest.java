@@ -27,14 +27,14 @@ public class AgreementDateFromValidationIntegrationTest {
     public void shouldReturnErrorWhenDateFromIsNull() {
         AgreementDTO agreement = AgreementDTO.builder()
                 .agreementDateFrom(null)
-                .agreementDateTo(LocalDate.of(2030, 1, 1))
+                .agreementDateTo(LocalDate.of(2030,1,1))
                 .country("SPAIN")
                 .selectedRisks(List.of("TRAVEL_MEDICAL"))
                 .persons(List.of(PersonDTO.builder()
                         .personFirstName("Vasja")
                         .personLastName("Pupkin")
                         .personCode("123456-12345")
-                        .personBirthDate(LocalDate.of(2020, 1, 1))
+                        .personBirthDate(LocalDate.of(2000,1,1))
                         .medicalRiskLimitLevel("LEVEL_10000")
                         .build())
                 ).build();
@@ -47,15 +47,15 @@ public class AgreementDateFromValidationIntegrationTest {
     @Test
     public void shouldReturnErrorWhenDateFromIsInThePast() {
         AgreementDTO agreement = AgreementDTO.builder()
-                .agreementDateFrom(LocalDate.of(2020, 1, 1))
-                .agreementDateTo(LocalDate.of(2030, 1, 1))
+                .agreementDateFrom(LocalDate.of(2020,1,1))
+                .agreementDateTo(LocalDate.of(2030,1,1))
                 .country("SPAIN")
                 .selectedRisks(List.of("TRAVEL_MEDICAL"))
                 .persons(List.of(PersonDTO.builder()
                         .personFirstName("Vasja")
                         .personLastName("Pupkin")
                         .personCode("123456-12345")
-                        .personBirthDate(LocalDate.of(2000, 1, 1))
+                        .personBirthDate(LocalDate.of(2000,1,1))
                         .medicalRiskLimitLevel("LEVEL_10000")
                         .build())
                 ).build();
@@ -64,4 +64,5 @@ public class AgreementDateFromValidationIntegrationTest {
         assertEquals("ERROR_CODE_1", errors.getFirst().getErrorCode());
         assertEquals("Field agreementDateFrom must be in the future!", errors.getFirst().getDescription());
     }
+
 }

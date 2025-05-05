@@ -16,9 +16,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyNoInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class PersonBirthDateInThePastValidationTest {
@@ -33,8 +31,8 @@ class PersonBirthDateInThePastValidationTest {
     public void shouldReturnErrorWhenPersonBirthDateInTheFuture() {
         AgreementDTO agreement = mock(AgreementDTO.class);
         PersonDTO person = mock(PersonDTO.class);
-        when(person.getPersonBirthDate()).thenReturn(LocalDate.of(2030, 1, 1));
-        when(dateTimeUtil.getCurrentDateTime()).thenReturn(LocalDate.of(2026, 1, 1));
+        when(person.getPersonBirthDate()).thenReturn(LocalDate.of(2030,1,1));
+        when(dateTimeUtil.getCurrentDateTime()).thenReturn(LocalDate.of(2023,1,1));
         ValidationErrorDTO validationError = mock(ValidationErrorDTO.class);
         when(errorFactory.buildError("ERROR_CODE_12")).thenReturn(validationError);
         Optional<ValidationErrorDTO> errorOpt = validation.validate(agreement, person);
@@ -46,8 +44,8 @@ class PersonBirthDateInThePastValidationTest {
     public void shouldNotReturnErrorWhenPersonBirthDateDateInThePast() {
         AgreementDTO agreement = mock(AgreementDTO.class);
         PersonDTO person = mock(PersonDTO.class);
-        when(person.getPersonBirthDate()).thenReturn(LocalDate.of(2020, 1, 1));
-        when(dateTimeUtil.getCurrentDateTime()).thenReturn(LocalDate.of(2023, 1, 1));
+        when(person.getPersonBirthDate()).thenReturn(LocalDate.of(2020,1,1));
+        when(dateTimeUtil.getCurrentDateTime()).thenReturn(LocalDate.of(2023,1,1));
         Optional<ValidationErrorDTO> errorOpt = validation.validate(agreement, person);
         assertTrue(errorOpt.isEmpty());
         verifyNoInteractions(errorFactory);

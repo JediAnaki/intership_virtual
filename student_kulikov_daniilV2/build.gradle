@@ -1,6 +1,6 @@
 plugins {
 	id 'org.springframework.boot' version "3.2.5"
-	id 'maven-publish'
+	id 'com.palantir.docker' version '0.35.0'
 }
 
 dependencies {
@@ -9,14 +9,21 @@ dependencies {
 	implementation('org.hibernate:hibernate-core:6.5.0.Final')
 	implementation ('org.liquibase:liquibase-core:4.27.0')
 	implementation('com.h2database:h2:2.2.224')
-	implementation('org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0')
+	implementation('org.springdoc:springdoc-openapi-ui:1.6.4')
+
+	implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
+	implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
+	implementation 'org.glassfish:jakarta.el:4.0.2' // для выражений валидации
 
 	implementation('org.springframework.boot:spring-boot-starter-data-jpa:3.2.5')
+
+	implementation('org.springframework.boot:spring-boot-starter-cache:3.2.5')
 
 	implementation('org.springframework.boot:spring-boot-starter-web:3.2.5')
 
 	implementation('org.springframework.boot:spring-boot-starter-thymeleaf:3.2.5')
 
+	implementation('com.fasterxml.jackson.core:jackson-core:2.14.2')
 	implementation('com.google.guava:guava:31.0.1-jre')
 
 	compileOnly('org.projectlombok:lombok:1.18.32')
@@ -30,8 +37,6 @@ dependencies {
 	testImplementation('org.hamcrest:hamcrest:2.2')
 
 	testImplementation('uk.org.webcompere:model-assert:1.0.0')
-
-	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.2'
 
 	test {
 		useJUnitPlatform()
@@ -49,40 +54,8 @@ bootJar {
 	archiveVersion = '1.0.2'
 }
 
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			// Identify the artifact
-			artifact bootJar  // This refers to the Spring Boot's bootJar task
-
-			// Project coordinates
-			groupId = 'org.javaguru'
-			artifactId = 'insurance-calculator'
-			version = '1.0.0'
-
-			// Add other metadata as needed
-			pom {
-				name = 'Insurance Calculator Application'
-				description = 'Application to calculate travel insurance premium'
-				licenses {
-					license {
-						name = 'The Apache License, Version 2.0'
-						url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-					}
-				}
-			}
-		}
-	}
-
-	// Configure the repository location (local Maven repository)
-	repositories {
-		mavenLocal()
-	}
-
-	clean {
-		delete fileTree(dir: 'logs')
-		doLast {
-			println "Deleted logs directory"
-		}
-	}
+docker {
+	name "insurance-calculator:1.0.2"
+	files 'build/libs/insurance-calculator-1.0.2.jar'
+	buildArgs(['JAR_FILE': "insurance-calculator-1.0.2.jar"])
 }

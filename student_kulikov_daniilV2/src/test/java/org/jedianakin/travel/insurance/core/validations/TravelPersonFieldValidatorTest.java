@@ -61,7 +61,7 @@ class TravelPersonFieldValidatorTest {
         when(validation2.validateList(agreement, person)).thenReturn(List.of(new ValidationErrorDTO()));
         var validator = new TravelPersonFieldValidator(List.of(validation1, validation2));
         List<ValidationErrorDTO> errors = validator.validate(agreement);
-        assertEquals(errors.size(), 2);
+        assertEquals(2, errors.size());
     }
 
 }

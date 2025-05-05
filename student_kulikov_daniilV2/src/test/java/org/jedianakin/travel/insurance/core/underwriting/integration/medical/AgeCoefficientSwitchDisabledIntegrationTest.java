@@ -22,26 +22,28 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Disabled
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(properties = {"medical.risk.limit.level.enabled=false"})
+@SpringBootTest(properties = {"medical.risk.age.coefficient.enabled=false"})
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
-public class MidicalRiskLimitLevelSwitchDisabledTest {
+public class AgeCoefficientSwitchDisabledIntegrationTest {
 
-    @Autowired private TravelPremiumUnderwriting premiumUnderwriting;
+    @Autowired
+    private TravelPremiumUnderwriting premiumUnderwriting;
+
 
     @Test
-    public void shouldBeDisabledMedicalRiskLimitLevel() {
+    public void shouldBeEnabledMedicalRiskLimitLevel() {
         PersonDTO person = PersonDTO.builder()
                 .personFirstName("Vasja")
                 .personLastName("Pupkin")
-                .personBirthDate(LocalDate.of(2000, 1, 1))
+                .personBirthDate(LocalDate.of(2000,1,1))
                 .medicalRiskLimitLevel("LEVEL_20000")
                 .build();
 
         AgreementDTO agreement = AgreementDTO.builder()
-                .agreementDateFrom(LocalDate.of(2030, 1, 1))
-                .agreementDateTo(LocalDate.of(2030, 5, 1))
+                .agreementDateFrom(LocalDate.of(2030,1,1))
+                .agreementDateTo(LocalDate.of(2030,5,1))
                 .country("SPAIN")
                 .selectedRisks(List.of("TRAVEL_MEDICAL"))
                 .persons(List.of(person))
@@ -49,6 +51,6 @@ public class MidicalRiskLimitLevelSwitchDisabledTest {
 
         TravelPremiumCalculationResult result = premiumUnderwriting.calculatePremium(agreement, person);
 
-        assertEquals(new BigDecimal("327.25"), result.totalPremium());
+        assertEquals(new BigDecimal("446.25"), result.totalPremium());
     }
 }

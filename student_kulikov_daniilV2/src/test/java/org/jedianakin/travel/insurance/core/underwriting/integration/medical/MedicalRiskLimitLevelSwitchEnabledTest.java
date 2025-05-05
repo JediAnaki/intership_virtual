@@ -15,7 +15,10 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -36,13 +39,13 @@ public class MedicalRiskLimitLevelSwitchEnabledTest {
         PersonDTO person = PersonDTO.builder()
                 .personFirstName("Vasja")
                 .personLastName("Pupkin")
-                .personBirthDate(LocalDate.of(2000, 1, 1))
+                .personBirthDate(LocalDate.of(2000,1,1))
                 .medicalRiskLimitLevel("LEVEL_20000")
                 .build();
 
         AgreementDTO agreement = AgreementDTO.builder()
-                .agreementDateFrom(LocalDate.of(2030, 1, 1))
-                .agreementDateTo(LocalDate.of(2030, 5, 1))
+                .agreementDateFrom(LocalDate.of(2030,1,1))
+                .agreementDateTo(LocalDate.of(2030,5,1))
                 .country("SPAIN")
                 .selectedRisks(List.of("TRAVEL_MEDICAL"))
                 .persons(List.of(person))
@@ -50,6 +53,6 @@ public class MedicalRiskLimitLevelSwitchEnabledTest {
 
         TravelPremiumCalculationResult result = premiumUnderwriting.calculatePremium(agreement, person);
 
-        assertEquals(result.totalPremium(), new BigDecimal("490.88"));
+        assertEquals(new BigDecimal("490.88"), result.totalPremium());
     }
 }

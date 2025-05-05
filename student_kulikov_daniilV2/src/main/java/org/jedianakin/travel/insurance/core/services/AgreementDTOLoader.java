@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-public class AgreementDTOLoader {
+class AgreementDTOLoader {
 
     private final AgreementEntityRepository agreementEntityRepository;
     private final SelectedRiskEntityRepository selectedRiskEntityRepository;

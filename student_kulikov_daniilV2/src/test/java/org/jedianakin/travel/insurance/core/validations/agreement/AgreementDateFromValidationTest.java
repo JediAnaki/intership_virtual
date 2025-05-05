@@ -14,9 +14,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyNoInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class AgreementDateFromValidationTest {
@@ -40,9 +38,10 @@ class AgreementDateFromValidationTest {
     @Test
     public void shouldNotReturnErrorWhenAgreementDateFromIsPresent() {
         AgreementDTO agreement = mock(AgreementDTO.class);
-        when(agreement.getAgreementDateFrom()).thenReturn(LocalDate.of(2025, 1, 1));
+        when(agreement.getAgreementDateFrom()).thenReturn(LocalDate.of(2025,1,1));
         Optional<ValidationErrorDTO> errorOpt = validation.validate(agreement);
         assertTrue(errorOpt.isEmpty());
         verifyNoInteractions(errorFactory);
     }
+
 }

@@ -42,7 +42,7 @@ class TravelAgreementFieldValidatorTest {
         List<TravelAgreementFieldValidation> agreementValidations = List.of(validation1, validation2);
         var validator = new TravelAgreementFieldValidator(agreementValidations);
         List<ValidationErrorDTO> errors = validator.validate(agreement);
-        assertEquals(errors.size(), 2);
+        assertEquals(2, errors.size());
     }
 
     @Test
@@ -57,7 +57,7 @@ class TravelAgreementFieldValidatorTest {
         List<TravelAgreementFieldValidation> agreementValidations = List.of(validation1, validation2);
         var validator = new TravelAgreementFieldValidator(agreementValidations);
         List<ValidationErrorDTO> errors = validator.validate(agreement);
-        assertEquals(errors.size(), 2);
+        assertEquals(2, errors.size());
     }
 
 }

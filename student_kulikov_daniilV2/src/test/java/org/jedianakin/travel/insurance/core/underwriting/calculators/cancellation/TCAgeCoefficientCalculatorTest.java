@@ -25,8 +25,7 @@ class TCAgeCoefficientCalculatorTest {
 
     @Mock
     private DateTimeUtil dateTimeUtil;
-    @Mock
-    private TCAgeCoefficientRepository ageCoefficientRepository;
+    @Mock private TCAgeCoefficientRepository ageCoefficientRepository;
 
     @InjectMocks
     private TCAgeCoefficientCalculator calculator;
@@ -41,10 +40,11 @@ class TCAgeCoefficientCalculatorTest {
 
     @Test
     void shouldFindCoefficientWhenAgeCoefficientExists() {
+        LocalDate currentDate = LocalDate.of(2023, 3, 27);
         int age = 33;
         BigDecimal expectedCoefficient = BigDecimal.valueOf(1.2);
 
-        when(dateTimeUtil.getCurrentDateTime()).thenReturn(LocalDate.of(2023, 3, 27));
+        when(dateTimeUtil.getCurrentDateTime()).thenReturn(currentDate);
         TCAgeCoefficient ageCoefficient = mock(TCAgeCoefficient.class);
         when(ageCoefficient.getCoefficient()).thenReturn(expectedCoefficient);
         when(ageCoefficientRepository.findCoefficient(age)).thenReturn(Optional.of(ageCoefficient));
@@ -56,9 +56,10 @@ class TCAgeCoefficientCalculatorTest {
 
     @Test
     void shouldThrowExceptionWhenAgeCoefficientNotFound() {
+        LocalDate currentDate = LocalDate.of(2023, 3, 27);
         int age = 33;
 
-        when(dateTimeUtil.getCurrentDateTime()).thenReturn(LocalDate.of(2023, 3, 27));
+        when(dateTimeUtil.getCurrentDateTime()).thenReturn(currentDate);
         when(ageCoefficientRepository.findCoefficient(age)).thenReturn(Optional.empty());
 
         RuntimeException exception = assertThrows(RuntimeException.class, () -> calculator.calculate(person));

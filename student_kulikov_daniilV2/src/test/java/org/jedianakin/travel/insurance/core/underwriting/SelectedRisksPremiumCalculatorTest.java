@@ -38,9 +38,9 @@ class SelectedRisksPremiumCalculatorTest {
         PersonDTO person = mock(PersonDTO.class);
         when(agreement.getSelectedRisks()).thenReturn(List.of("TRAVEL_MEDICAL"));
         List<RiskDTO> riskPremiums = calculator.calculatePremiumForAllRisks(agreement, person);
-        assertEquals(riskPremiums.size(), 1);
-        assertEquals(riskPremiums.get(0).getRiskIc(), "TRAVEL_MEDICAL");
-        assertEquals(riskPremiums.get(0).getPremium(), BigDecimal.ONE);
+        assertEquals(1, riskPremiums.size());
+        assertEquals("TRAVEL_MEDICAL", riskPremiums.getFirst().getRiskIc());
+        assertEquals(BigDecimal.ONE, riskPremiums.getFirst().getPremium());
     }
 
     @Test
@@ -55,11 +55,11 @@ class SelectedRisksPremiumCalculatorTest {
         PersonDTO person = mock(PersonDTO.class);
         when(agreement.getSelectedRisks()).thenReturn(List.of("TRAVEL_MEDICAL", "TRAVEL_EVACUATION"));
         List<RiskDTO> riskPremiums = calculator.calculatePremiumForAllRisks(agreement, person);
-        assertEquals(riskPremiums.size(), 2);
-        assertEquals(riskPremiums.get(0).getRiskIc(), "TRAVEL_MEDICAL");
-        assertEquals(riskPremiums.get(0).getPremium(), BigDecimal.ONE);
-        assertEquals(riskPremiums.get(1).getRiskIc(), "TRAVEL_EVACUATION");
-        assertEquals(riskPremiums.get(1).getPremium(), BigDecimal.ONE);
+        assertEquals(2, riskPremiums.size());
+        assertEquals("TRAVEL_MEDICAL", riskPremiums.get(0).getRiskIc());
+        assertEquals(BigDecimal.ONE, riskPremiums.get(0).getPremium());
+        assertEquals("TRAVEL_EVACUATION", riskPremiums.get(1).getRiskIc());
+        assertEquals(BigDecimal.ONE, riskPremiums.get(1).getPremium());
     }
 
     @Test
@@ -74,7 +74,7 @@ class SelectedRisksPremiumCalculatorTest {
 
         RuntimeException exception = assertThrows(RuntimeException.class,
                 () -> calculator.calculatePremiumForAllRisks(agreement, person));
-        assertEquals(exception.getMessage(), "Not supported riskIc = NOT_SUPPORTED_RISK_TYPE");
+        assertEquals("Not supported riskIc = NOT_SUPPORTED_RISK_TYPE", exception.getMessage());
     }
 
 }

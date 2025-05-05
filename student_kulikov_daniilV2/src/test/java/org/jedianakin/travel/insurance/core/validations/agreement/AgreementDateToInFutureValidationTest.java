@@ -15,9 +15,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyNoInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class AgreementDateToInFutureValidationTest {
@@ -31,8 +29,8 @@ class AgreementDateToInFutureValidationTest {
     @Test
     public void shouldReturnErrorWhenAgreementDateToInThePast() {
         AgreementDTO agreement = mock(AgreementDTO.class);
-        when(agreement.getAgreementDateTo()).thenReturn(LocalDate.of(2020, 1, 1));
-        when(dateTimeUtil.getCurrentDateTime()).thenReturn(LocalDate.of(2023, 1, 1));
+        when(agreement.getAgreementDateTo()).thenReturn(LocalDate.of(2020,1,1));
+        when(dateTimeUtil.getCurrentDateTime()).thenReturn(LocalDate.of(2023,1,1));
         ValidationErrorDTO validationError = mock(ValidationErrorDTO.class);
         when(errorFactory.buildError("ERROR_CODE_3")).thenReturn(validationError);
         Optional<ValidationErrorDTO> errorOpt = validation.validate(agreement);
@@ -43,10 +41,11 @@ class AgreementDateToInFutureValidationTest {
     @Test
     public void shouldNotReturnErrorWhenAgreementDateToInTheFuture() {
         AgreementDTO agreement = mock(AgreementDTO.class);
-        when(agreement.getAgreementDateTo()).thenReturn(LocalDate.of(2025, 1, 1));
-        when(dateTimeUtil.getCurrentDateTime()).thenReturn(LocalDate.of(2023, 1, 1));
+        when(agreement.getAgreementDateTo()).thenReturn(LocalDate.of(2025,1,1));
+        when(dateTimeUtil.getCurrentDateTime()).thenReturn(LocalDate.of(2023,1,1));
         Optional<ValidationErrorDTO> errorOpt = validation.validate(agreement);
         assertTrue(errorOpt.isEmpty());
         verifyNoInteractions(errorFactory);
     }
+
 }

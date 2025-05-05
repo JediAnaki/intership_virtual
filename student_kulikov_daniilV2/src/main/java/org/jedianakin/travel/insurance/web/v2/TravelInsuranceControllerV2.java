@@ -1,7 +1,9 @@
 package org.jedianakin.travel.insurance.web.v2;
 
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import org.jedianakin.travel.insurance.core.api.command.TravelCalculatePremiumCoreCommand;
-import org.jedianakin.travel.insurance.core.api.command.TravelGetAgreementCoreResult;
+import org.jedianakin.travel.insurance.core.api.command.TravelCalculatePremiumCoreResult;
 import org.jedianakin.travel.insurance.core.services.TravelCalculatePremiumService;
 import org.jedianakin.travel.insurance.dto.v2.DtoV2Converter;
 import org.jedianakin.travel.insurance.dto.v2.TravelCalculatePremiumRequestV2;
@@ -13,16 +15,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public class TravelInsuranceControllerV2 {
 
     private final TravelCalculatePremiumService service;
     private final DtoV2Converter dtoV2Converter;
-
-    TravelInsuranceControllerV2(TravelCalculatePremiumService service, 
-                                DtoV2Converter dtoV2Converter) {
-        this.service = service;
-        this.dtoV2Converter = dtoV2Converter;
-    }
 
     @GetMapping("/insurance/travel/web/v2")
     public String showForm(ModelMap modelMap) {
@@ -35,7 +32,7 @@ public class TravelInsuranceControllerV2 {
     public String processForm(@ModelAttribute(value = "request") TravelCalculatePremiumRequestV2 request,
                               ModelMap modelMap) {
         TravelCalculatePremiumCoreCommand coreCommand = dtoV2Converter.buildCoreCommand(request);
-        TravelGetAgreementCoreResult coreResult = service.calculatePremium(coreCommand);
+        TravelCalculatePremiumCoreResult coreResult = service.calculatePremium(coreCommand);
         TravelCalculatePremiumResponseV2 response = dtoV2Converter.buildResponse(coreResult);
         modelMap.addAttribute("response", response);
         return "travel-calculate-premium-v2";

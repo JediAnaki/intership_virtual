@@ -45,8 +45,8 @@ class AgreementPersonsPremiumCalculatorTest {
 
         calculator.calculateRiskPremiums(agreement);
 
-        assertEquals(agreement.getPersons().get(0).getRisks().size(), 2);
-        assertEquals(agreement.getPersons().get(1).getRisks().size(), 2);
+        assertEquals(2, agreement.getPersons().get(0).getRisks().size());
+        assertEquals(2, agreement.getPersons().get(1).getRisks().size());
     }
 
 }

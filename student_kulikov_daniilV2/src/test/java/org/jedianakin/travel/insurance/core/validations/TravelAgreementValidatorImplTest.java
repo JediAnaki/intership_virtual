@@ -49,7 +49,7 @@ public class TravelAgreementValidatorImplTest {
         when(agreementFieldValidator.validate(agreement)).thenReturn(List.of());
         when(personFieldValidator.validate(any())).thenReturn(List.of(new ValidationErrorDTO()));
         List<ValidationErrorDTO> errors = validator.validate(agreement);
-        assertEquals(errors.size(), 1);
+        assertEquals(1, errors.size());
     }
 
     @Test
@@ -58,7 +58,7 @@ public class TravelAgreementValidatorImplTest {
         when(agreementFieldValidator.validate(agreement)).thenReturn(List.of(new ValidationErrorDTO()));
         when(personFieldValidator.validate(any())).thenReturn(List.of(new ValidationErrorDTO()));
         List<ValidationErrorDTO> errors = validator.validate(agreement);
-        assertEquals(errors.size(), 2);
+        assertEquals(2, errors.size());
     }
 
 }
