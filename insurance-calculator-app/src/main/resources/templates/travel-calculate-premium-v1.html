@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Travel Insurance Premium Calculation</title>
+    <!-- Подключаем Tailwind CSS через CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Дополнительные стили для улучшения */
+        body {
+            background: linear-gradient(to bottom right, #e0f7fa, #ffffff);
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+        }
+        .error-card, .result-card {
+            transition: all 0.3s ease;
+        }
+        .error-card:hover, .result-card:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="flex justify-center items-start p-6">
+<div class="max-w-2xl w-full bg-white shadow-xl rounded-2xl p-8">
+    <h1 class="text-3xl font-bold text-center text-gray-800 mb-8">Travel Insurance Premium Calculation</h1>
+
+    <!-- Форма -->
+    <form action="/insurance/travel/web/v1" th:object="${request}" method="post" class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- First Name -->
+            <div>
+                <label for="personFirstName" class="block text-sm font-medium text-gray-700">First Name</label>
+                <input type="text" id="personFirstName" th:field="${request.personFirstName}"
+                       class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-3">
+            </div>
+
+            <!-- Last Name -->
+            <div>
+                <label for="personLastName" class="block text-sm font-medium text-gray-700">Last Name</label>
+                <input type="text" id="personLastName" th:field="${request.personLastName}"
+                       class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-3">
+            </div>
+
+            <!-- Person Code -->
+            <div>
+                <label for="personCode" class="block text-sm font-medium text-gray-700">Person Code</label>
+                <input type="text" id="personCode" th:field="${request.personCode}"
+                       class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-3">
+            </div>
+
+            <!-- Birth Date -->
+            <div>
+                <label for="personBirthDate" class="block text-sm font-medium text-gray-700">Birth Date</label>
+                <input type="date" id="personBirthDate" th:field="${request.personBirthDate}"
+                       class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-3">
+            </div>
+
+            <!-- Agreement Date From -->
+            <div>
+                <label for="agreementDateFrom" class="block text-sm font-medium text-gray-700">Agreement Date From</label>
+                <input type="date" id="agreementDateFrom" th:field="${request.agreementDateFrom}"
+                       class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-3">
+            </div>
+
+            <!-- Agreement Date To -->
+            <div>
+                <label for="agreementDateTo" class="block text-sm font-medium text-gray-700">Agreement Date To</label>
+                <input type="date" id="agreementDateTo" th:field="${request.agreementDateTo}"
+                       class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-3">
+            </div>
+
+            <!-- Country -->
+            <div>
+                <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
+                <input type="text" id="country" th:field="${request.country}"
+                       class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-3">
+            </div>
+
+            <!-- Medical Risk Limit Level -->
+            <div>
+                <label for="medicalRiskLimitLevel" class="block text-sm font-medium text-gray-700">Medical Risk Limit Level</label>
+                <input type="text" id="medicalRiskLimitLevel" th:field="${request.medicalRiskLimitLevel}"
+                       class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-3">
+            </div>
+
+            <!-- Travel Cost -->
+            <div>
+                <label for="travelCost" class="block text-sm font-medium text-gray-700">Travel Cost</label>
+                <input type="text" id="travelCost" th:field="${request.travelCost}"
+                       class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-3">
+            </div>
+
+            <!-- Selected Risks -->
+            <div>
+                <label for="selectedRisks" class="block text-sm font-medium text-gray-700">Selected Risks</label>
+                <input type="text" id="selectedRisks" th:field="${request.selectedRisks}"
+                       class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-3">
+            </div>
+        </div>
+
+        <!-- Кнопка отправки -->
+        <div class="text-center">
+            <button type="submit"
+                    class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Calculate Premium
+            </button>
+        </div>
+    </form>
+
+    <!-- Ошибки -->
+    <div th:if="${response.errors != null}" class="mt-8">
+        <h3 class="text-lg font-semibold text-red-600 mb-4">Calculation Errors</h3>
+        <div class="space-y-4">
+            <div th:each="error : ${response.errors}" class="error-card bg-red-50 p-4 rounded-lg shadow-sm">
+                <p class="text-sm font-medium text-red-800">Error Code: <span th:text="${error.errorCode}"></span></p>
+                <p class="text-sm text-red-700">Description: <span th:text="${error.description}"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Результаты -->
+    <div th:if="${response.agreementPremium != null}" class="mt-8">
+        <h3 class="text-lg font-semibold text-green-600 mb-4">Agreement Premium</h3>
+        <p class="text-2xl font-bold text-gray-800" th:text="'Total: ' + ${response.agreementPremium}"></p>
+    </div>
+
+    <!-- Риски -->
+    <div th:if="${response.risks != null}" class="mt-8">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">Calculated Risks</h3>
+        <div class="space-y-4">
+            <div th:each="risk : ${response.risks}" class="result-card bg-gray-50 p-4 rounded-lg shadow-sm">
+                <p class="text-sm font-medium text-gray-800">Risk IC: <span th:text="${risk.riskIc}"></span></p>
+                <p class="text-sm text-gray-700">Premium: <span th:text="${risk.premium}"></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Расчёт стоимости страховки</title>
+    <!-- Подключаем Tailwind CSS через CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: #eef2f7;
+            min-height: 100vh;
+            font-family: 'Arial', sans-serif;
+        }
+        .form-container, .cart-container {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .cart-container {
+            position: sticky;
+            top: 1.5rem;
+            max-width: 400px;
+            width: auto;
+            height: auto; /* Динамическая высота на основе содержимого */
+            min-height: 200px; /* Минимальная высота для пустой корзины */
+        }
+        .person-block {
+            background-color: #f3f4f6;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .action-button {
+            width: 1.5rem;
+            height: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .action-button:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        .tooltip {
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            background-color: #333;
+            color: #fff;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            z-index: 10;
+            top: -25px;
+            transition: opacity 0.2s;
+        }
+        /* Стили для выпадающих списков */
+        .custom-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+            background-size: 1.5em;
+            background-color: #fff;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            padding: 0.5rem 2rem 0.5rem 0.75rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .custom-select:focus {
+            outline: none;
+            border-color: #14b8a6;
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.2);
+        }
+        /* Стили для модального окна */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 20;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        @media (max-width: 768px) {
+            .cart-container {
+                position: static;
+                margin-top: 2rem;
+                max-width: 100%;
+            }
+            .main-content {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body class="flex justify-center p-6">
+<div class="main-content max-w-4xl w-full flex flex-col md:flex-row gap-6">
+    <!-- Форма -->
+    <div class="form-container w-full md:w-2/3 bg-white rounded-lg p-6">
+        <h1 class="text-2xl font-semibold text-center text-gray-800 mb-6">Расчёт стоимости страховки</h1>
+
+        <form action="/insurance/travel/web/v2" th:object="${request}" method="post" class="space-y-4">
+            <!-- Даты договора -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Дата заключения договора:</label>
+                <input type="date" th:field="${request.agreementDateFrom}"
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 p-2">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Дата окончания договора:</label>
+                <input type="date" th:field="${request.agreementDateTo}"
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 p-2">
+            </div>
+
+            <!-- Страна назначения -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Страна назначения:</label>
+                <select th:field="${request.country}"
+                        class="custom-select mt-1 block w-full">
+                    <option value="">Выберите страну</option>
+                    <option value="Latvia">Латвия</option>
+                    <option value="USA">США</option>
+                    <option value="France">Франция</option>
+                    <option value="Thailand">Таиланд</option>
+                </select>
+            </div>
+
+            <!-- Риски -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Риски:</label>
+                <button type="button" id="openRisksModal"
+                        class="mt-1 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                    Выбрать риски
+                </button>
+                <!-- Скрытое поле для отправки выбранных рисков -->
+                <input type="hidden" id="selectedRisks" th:field="${request.selectedRisks}" value="">
+            </div>
+
+            <!-- Модальное окно для выбора рисков -->
+            <div id="risksModal" class="modal">
+                <div class="modal-content">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Выберите риски</h3>
+                    <div id="risksList" class="space-y-2">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="risk-MEDICAL" value="MEDICAL" class="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded">
+                            <label for="risk-MEDICAL" class="ml-2 text-sm text-gray-700">Медицинское страхование (€50)</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="risk-TRIP_CANCELLATION" value="TRIP_CANCELLATION" class="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded">
+                            <label for="risk-TRIP_CANCELLATION" class="ml-2 text-sm text-gray-700">Отмена поездки (€30)</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="risk-LUGGAGE_LOSS" value="LUGGAGE_LOSS" class="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded">
+                            <label for="risk-LUGGAGE_LOSS" class="ml-2 text-sm text-gray-700">Потеря багажа (€20)</label>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex justify-end">
+                        <button type="button" id="confirmRisks"
+                                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                            Готово
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Экспорт PDF -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Экспорт PDF:</label>
+                <button type="button" id="exportPDFButton"
+                        class="mt-1 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                    Выключено
+                </button>
+            </div>
+
+            <!-- Персональные данные -->
+            <div id="personsList">
+                <div class="person-block space-y-2 mb-4" data-person-id="0">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-lg font-medium text-gray-700">Персона 1</h3>
+                        <div class="flex space-x-2">
+                            <div class="action-button bg-red-600 text-white relative" onclick="removePerson(0)">
+                                <span>-</span>
+                                <span class="tooltip">Удалить персону</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Имя:</label>
+                        <input type="text" th:field="${request.personFirstName}"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 p-2">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Фамилия:</label>
+                        <input type="text" th:field="${request.personLastName}"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 p-2">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Код пользователя (хххх-хххх):</label>
+                        <input type="text" th:field="${request.personCode}"
+                               placeholder="xxxx-xxxx"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 p-2">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Дата рождения:</label>
+                        <input type="date" th:field="${request.personBirthDate}"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 p-2">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Уровень медицинского покрытия:</label>
+                        <select th:field="${request.medicalRiskLimitLevel}"
+                                class="custom-select mt-1 block w-full">
+                            <option value="">Выберите уровень</option>
+                            <option value="LOW">Низкий (€100)</option>
+                            <option value="MEDIUM">Средний (€500)</option>
+                            <option value="HIGH">Высокий (€1000)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Стоимость поездки (€):</label>
+                        <input type="text" th:field="${request.travelCost}"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 p-2">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Кнопка "Добавить персону" вне блока -->
+            <div class="flex justify-end">
+                <div class="action-button bg-green-600 text-white relative" onclick="addPerson()">
+                    <span>+</span>
+                    <span class="tooltip">Добавить персону</span>
+                </div>
+            </div>
+        </form>
+
+        <!-- Ошибки -->
+        <div th:if="${response.errors != null and !response.errors.isEmpty()}" class="mt-6">
+            <h3 class="text-lg font-semibold text-red-600 mb-2">Ошибки расчёта</h3>
+            <div class="space-y-2">
+                <div th:each="error : ${response.errors}" class="bg-red-50 p-3 rounded-md">
+                    <p class="text-sm text-red-800">Ошибка: <span th:text="${error.description}"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Корзина -->
+    <div class="cart-container bg-white rounded-lg p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4" id="cartTotal">Стоимость страховки: €0</h2>
+        <div class="border-t border-gray-200 pt-4">
+            <h3 class="text-md font-medium text-gray-700 mb-2">Детали стоимости страховки:</h3>
+            <div id="cartItems" class="space-y-2">
+                <!-- Сюда будут добавляться персоны и риски -->
+            </div>
+            <p th:if="${response.agreementPremium != null}" class="text-lg font-bold text-teal-600 mt-4">
+                Итоговая стоимость: <span th:text="${response.agreementPremium}"></span>
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript для управления рисками, персонами и корзиной -->
+<script>
+    const riskPrices = {
+        'MEDICAL': 50,
+        'TRIP_CANCELLATION': 30,
+        'LUGGAGE_LOSS': 20
+    };
+    let selectedRisks = [];
+    let personCount = 1;
+    let exportPDFEnabled = false;
+
+    // Открытие модального окна
+    function openRisksModal() {
+        const modal = document.getElementById('risksModal');
+        modal.style.display = 'flex';
+        // Устанавливаем текущие выбранные риски в чекбоксы
+        document.querySelectorAll('#risksList input[type="checkbox"]').forEach(checkbox => {
+            checkbox.checked = selectedRisks.includes(checkbox.value);
+        });
+    }
+
+    // Подтверждение выбора рисков
+    function confirmRisks() {
+        selectedRisks = [];
+        document.querySelectorAll('#risksList input[type="checkbox"]:checked').forEach(checkbox => {
+            selectedRisks.push(checkbox.value);
+        });
+        document.getElementById('selectedRisks').value = selectedRisks.join(',');
+        document.getElementById('risksModal').style.display = 'none';
+        updateCart();
+    }
+
+    // Переключение состояния кнопки Экспорт PDF
+    function toggleExportPDF() {
+        exportPDFEnabled = !exportPDFEnabled;
+        const exportButton = document.getElementById('exportPDFButton');
+        if (exportPDFEnabled) {
+            exportButton.textContent = 'Включено';
+            exportButton.classList.remove('bg-red-600', 'hover:bg-red-700', 'focus:ring-red-500');
+            exportButton.classList.add('bg-green-600', 'hover:bg-green-700', 'focus:ring-green-500');
+        } else {
+            exportButton.textContent = 'Выключено';
+            exportButton.classList.remove('bg-green-600', 'hover:bg-green-700', 'focus:ring-green-500');
+            exportButton.classList.add('bg-red-600', 'hover:bg-red-700', 'focus:ring-red-500');
+        }
+    }
+
+    // Добавление новой персоны
+    function addPerson() {
+        personCount++;
+        const personsList = document.getElementById('personsList');
+        const personBlock = document.createElement('div');
+        personBlock.className = 'person-block space-y-2 mb-4';
+        personBlock.setAttribute('data-person-id', personCount);
+        personBlock.innerHTML = `
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-medium text-gray-700">Персона ${personCount}</h3>
+                    <div class="flex space-x-2">
+                        <div class="action-button bg-red-600 text-white relative" onclick="removePerson(${personCount})">
+                            <span>-</span>
+                            <span class="tooltip">Удалить персону</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Имя:</label>
+                    <input type="text" name="persons[${personCount - 1}].firstName"
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 p-2">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Фамилия:</label>
+                    <input type="text" name="persons[${personCount - 1}].lastName"
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 p-2">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Код пользователя (хххх-хххх):</label>
+                    <input type="text" name="persons[${personCount - 1}].personCode"
+                           placeholder="xxxx-xxxx"
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 p-2">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Дата рождения:</label>
+                    <input type="date" name="persons[${personCount - 1}].birthDate"
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 p-2">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Уровень медицинского покрытия:</label>
+                    <select name="persons[${personCount - 1}].medicalRiskLimitLevel"
+                            class="custom-select mt-1 block w-full">
+                        <option value="">Выберите уровень</option>
+                        <option value="LOW">Низкий (€100)</option>
+                        <option value="MEDIUM">Средний (€500)</option>
+                        <option value="HIGH">Высокий (€1000)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Стоимость поездки (€):</label>
+                    <input type="text" name="persons[${personCount - 1}].travelCost"
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 p-2">
+                </div>
+            `;
+        personsList.appendChild(personBlock);
+        updateCart();
+    }
+
+    // Удаление персоны
+    function removePerson(personId) {
+        const personBlock = document.querySelector(`.person-block[data-person-id="${personId}"]`);
+        if (personBlock) {
+            personBlock.remove();
+            const remainingPersons = document.querySelectorAll('.person-block');
+            if (remainingPersons.length === 0) {
+                personCount = 0;
+                addPerson();
+            }
+            updateCart();
+        }
+    }
+
+    // Обновление корзины
+    function updateCart() {
+        const cartItems = document.getElementById('cartItems');
+        const cartTotal = document.getElementById('cartTotal');
+        let total = 0;
+        cartItems.innerHTML = '';
+
+        // Добавляем персоны
+        const persons = document.querySelectorAll('.person-block');
+        persons.forEach((person, index) => {
+            const firstName = person.querySelector(`input[name="persons[${index}].firstName"]`)?.value || person.querySelector(`input[name="personFirstName"]`)?.value || 'Не указано';
+            const lastName = person.querySelector(`input[name="persons[${index}].lastName"]`)?.value || person.querySelector(`input[name="personLastName"]`)?.value || '';
+            const personDiv = document.createElement('div');
+            personDiv.className = 'flex justify-between';
+            personDiv.innerHTML = `
+                    <span class="text-sm text-gray-600">Персона ${index + 1}: ${firstName} ${lastName}</span>
+                `;
+            cartItems.appendChild(personDiv);
+
+            // Добавляем риски для каждой персоны
+            selectedRisks.forEach(risk => {
+                const price = riskPrices[risk] || 0;
+                total += price;
+                const riskDiv = document.createElement('div');
+                riskDiv.className = 'flex justify-between';
+                riskDiv.innerHTML = `
+                        <span class="text-sm text-gray-600">${risk === 'MEDICAL' ? 'Медицинское страхование' : risk === 'TRIP_CANCELLATION' ? 'Отмена поездки' : 'Потеря багажа'}</span>
+                        <span class="text-sm text-gray-600">€${price.toFixed(2)}</span>
+                    `;
+                cartItems.appendChild(riskDiv);
+            });
+        });
+
+        cartTotal.textContent = `Стоимость страховки: €${total.toFixed(2)}`;
+    }
+
+    // Инициализация корзины и обработчиков событий
+    document.addEventListener('DOMContentLoaded', () => {
+        updateCart();
+        document.getElementById('openRisksModal').addEventListener('click', openRisksModal);
+        document.getElementById('confirmRisks').addEventListener('click', confirmRisks);
+        document.getElementById('exportPDFButton').addEventListener('click', toggleExportPDF);
+    });
+</script>
+</body>
+</html>
