@@ -14,14 +14,18 @@ checkstyle {
 
 dependencies {
 
+	implementation('mysql:mysql-connector-java:8.0.22')
+	implementation('org.hibernate:hibernate-core:6.5.0.Final')
+	implementation ('org.liquibase:liquibase-core:4.27.0')
+	implementation('com.h2database:h2:2.2.224')
+	implementation('org.springdoc:springdoc-openapi-ui:1.6.4')
+
 	implementation('org.springframework.boot:spring-boot-starter-web:3.2.5')
 
-	implementation('org.springframework.boot:spring-boot-starter-amqp:3.2.5')
+	implementation('org.springframework.boot:spring-boot-starter-data-jpa:3.2.5')
 
 	implementation('com.fasterxml.jackson.core:jackson-core:2.14.2')
 	implementation('com.google.guava:guava:31.0.1-jre')
-
-	implementation('org.apache.pdfbox:pdfbox:2.0.30')
 
 	compileOnly('org.projectlombok:lombok:1.18.32')
 	annotationProcessor('org.projectlombok:lombok:1.18.32')
@@ -47,17 +51,18 @@ jar {
 
 bootJar {
 	enabled = true
-	archiveBaseName = 'doc-generator'
+	archiveBaseName = 'black-list'
 	archiveVersion = '1.0.2'
 }
+
 dockerPrepare {
 	dependsOn(tasks["bootJar"])
 }
 
 docker {
 	dependsOn(tasks["bootJar"])
-	name "doc-generator:1.0.2"
-	files 'build/libs/doc-generator-1.0.2.jar'
+	name "black-list:1.0.2"
+	files 'build/libs/black-list-1.0.2.jar'
 	files 'wait-for-it.sh'
-	buildArgs(['JAR_FILE': "doc-generator-1.0.2.jar"])
+	buildArgs(['JAR_FILE': "black-list-1.0.2.jar"])
 }
