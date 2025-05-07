@@ -1,5 +1,5 @@
 networks:
-  jedianakin-network-network:
+  jedianakin-network:
 
 services:
   message-broker:
@@ -20,6 +20,15 @@ services:
       - ./mysql-database-init:/docker-entrypoint-initdb.d
     ports:
       - "3000:3306"
+
+  black-list-app:
+    networks: [jedianakin-network]
+    container_name: black-list-container
+    image: black-list:1.0.2
+    ports:
+      - "8090:8080"
+    depends_on:
+      - db
 
   insurance-calculator-app:
     networks: [jedianakin-network]
